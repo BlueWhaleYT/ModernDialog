@@ -58,10 +58,6 @@ public class ModernDialog {
 
     public static ModernDialog modernDialog = new ModernDialog();
 
-    public ModernDialog() {
-
-    }
-
     public static ModernDialog init(Context context) {
 
         // initialize view binding
@@ -129,20 +125,12 @@ public class ModernDialog {
     }
 
     public static ModernDialog setPositiveButton(boolean isEnable) {
-        if (isEnable) {
-            binding.btnPositive.setVisibility(View.VISIBLE);
-        } else {
-            binding.btnPositive.setVisibility(View.GONE);
-        }
+        setViewVisible(binding.btnPositive, isEnable);
         return modernDialog;
     }
 
     public static ModernDialog setNegativeButton(boolean isEnable) {
-        if (isEnable) {
-            binding.btnNegative.setVisibility(View.VISIBLE);
-        } else {
-            binding.btnNegative.setVisibility(View.GONE);
-        }
+        setViewVisible(binding.btnNegative, isEnable);
         return modernDialog;
     }
 

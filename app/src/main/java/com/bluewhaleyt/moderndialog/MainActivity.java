@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage("Go to gain daily rewards.")
                 .setPositiveButtonText("Explore")
                 .setNegativeButtonText("Close")
-                .setPositiveButtonBackgroundColor(0xFF42A5F5)
+                .setPositiveButtonBackgroundColor(0xFF42A5F5);
+        ModernDialog
                 .setAnimationLoop(ModernDialog.ANIMATION_INFINITE)
         ;
 
