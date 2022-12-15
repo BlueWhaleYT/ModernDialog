@@ -1,4 +1,6 @@
-# Modern Dialog
+# Modern Dialog [![](https://jitpack.io/v/BlueWhaleYT/ModernDialog.svg)](https://jitpack.io/#BlueWhaleYT/ModernDialog)
+
+<img src="http://forthebadge.com/images/badges/built-for-android.svg" /><br>
 
 Do you feel frustrated about using `AlertDialog` and `MaterialAlertDialog` with their normal designs? If so, ModernDialog is your new choice. It is a powerful library for Android Development written in Java.
 
@@ -46,7 +48,7 @@ The `$version` can be found in [Releases]().
 
 ```
 dependencies {
-    implementation 'com.github.BlueWhaleYT:ModernDialog:$version'
+    implementation 'com.bluewhaleyt.moderndialog:ModernDialog:$version'
 }
 ```
 
