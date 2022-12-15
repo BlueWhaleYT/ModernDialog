@@ -50,11 +50,22 @@ dependencies {
 }
 ```
 
-## Basic Usages
+## Usage
 
-Here's an example to create ModernDialog.
+Before creating the ModernDialog, I highly recommend you to initialize the instance first. Once you do this, the methods of dialog can be called everywhere.
 
 ```java
-ModernDialog.init(this)
-            .create();
+ModernDialog dialog;
+```
+
+Then, you now can use the dialog with configuration. Like `AlertDialog`, the dialog creates as below:
+
+```java
+dialog = new ModernDialog.Builder(this)
+        .setTitle("Your title here")
+        .setMessage("Your text here")
+        .setPositiveButton("OK", v -> clickEvent())
+        .setPositiveButtonBackgroundColor(0xFF42A5F5)
+        .setNegativeButton("Close", Dialog::dismiss)
+        .setCancelable(true, false)
 ```

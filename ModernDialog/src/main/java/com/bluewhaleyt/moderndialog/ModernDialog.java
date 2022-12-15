@@ -1,284 +1,417 @@
 package com.bluewhaleyt.moderndialog;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.view.Window;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
-
-import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
 import com.airbnb.lottie.LottieProperty;
 import com.airbnb.lottie.model.KeyPath;
-import com.airbnb.lottie.value.LottieFrameInfo;
-import com.airbnb.lottie.value.SimpleLottieValueCallback;
 import com.bluewhaleyt.moderndialog.databinding.ModernDialogBinding;
-
-import java.util.concurrent.Callable;
 
 public class ModernDialog {
 
-    public static int COLOR_DIALOG_DEFAULT = android.R.color.white;
-    public static int CORNER_RADIUS_DIALOG_DEFAULT = 60;
-    public static int CORNER_RADIUS_BUTTON_DEFAULT = 80;
+    private final static int COLOR_BLACK = 0xFF000000;
+    private final static int COLOR_GREY = 0xFF626262;
+    private final static int COLOR_WHITE = 0xFFFFFFFF;
+    private final static int COLOR_LIGHT_WHITE = 0xFFF5F5F5;
+    private final static int COLOR_ACCENT = 0xFF6200EE;
 
-    public static int COLOR_IGNORE = -1;
+    public final static int ALIGNMENT_CENTER = Gravity.CENTER;
+    public final static int ALIGNMENT_LEFT = Gravity.LEFT;
+    public final static int ALIGNMENT_RIGHT = Gravity.RIGHT;
 
-    public static int ALIGNMENT_CENTER = Gravity.CENTER;
-    public static int ALIGNMENT_LEFT = Gravity.LEFT;
-    public static int ALIGNMENT_RIGHT = Gravity.RIGHT;
-
-    public static Typeface FONT_STYLE_DEFAULT = Typeface.DEFAULT;
-    public static Typeface FONT_STYLE_BOLD = Typeface.defaultFromStyle(Typeface.BOLD);
-    public static Typeface FONT_STYLE_ITALIC = Typeface.defaultFromStyle(Typeface.ITALIC);
-    public static Typeface FONT_STYLE_BOLD_ITALIC = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC);
-
-    public static int ANIMATION_INFINITE = LottieDrawable.INFINITE;
-    public static int ANIMATION_RESTART = LottieDrawable.RESTART;
-    public static int ANIMATION_REVERSE = LottieDrawable.REVERSE;
+    public final static int ANIMATION_INFINITE = LottieDrawable.INFINITE;
+    public final static int ANIMATION_RESTART = LottieDrawable.RESTART;
+    public final static int ANIMATION_REVERSE = LottieDrawable.REVERSE;
 
     @SuppressLint("StaticFieldLeak")
     private static ModernDialogBinding binding;
 
-    public static ModernDialog modernDialog = new ModernDialog();
+    public AlertDialog dialog = null;
 
-    public static ModernDialog init(Context context) {
+    public ModernDialog(final Builder builder) {
 
-        // initialize view binding
-        binding = ModernDialogBinding.inflate(LayoutInflater.from(context));
-
-        return modernDialog;
-    }
-
-    public static ModernDialog create() {
-
-        // define default settings for the dialog
-        setDialogBackgroundColor(getColor(binding.getRoot().getContext(), android.R.color.white));
-        setDialogCornerRadius(CORNER_RADIUS_DIALOG_DEFAULT);
-        setPositiveButtonCornerRadius(CORNER_RADIUS_BUTTON_DEFAULT);
-        setNegativeButtonCornerRadius(CORNER_RADIUS_BUTTON_DEFAULT);
-
-        // initialize a dialog
-        AlertDialog dialog = new AlertDialog.Builder(binding.getRoot().getContext()).create();
-        dialog.setView(binding.getRoot());
-        dialog.setCancelable(false);
+        binding = ModernDialogBinding.inflate(LayoutInflater.from(builder.context));
+        dialog = new AlertDialog.Builder(builder.context).create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setView(binding.getRoot());
         dialog.show();
 
-        return modernDialog;
-    }
+        // apply configuration
+        // set cancelable
+        dialog.setCancelable(builder.isCancelable);
+        dialog.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);
 
-    public static ModernDialog setDialogBackgroundColor(int color) {
-        binding.dialogView.setBackgroundTintList(ColorStateList.valueOf(color));
-        return modernDialog;
-    }
+        // set background
+        setBackgroundColor(binding.dialogView, builder.dialogBgColor);
+        setBackgroundColor(binding.btnPositive, builder.buttonPositiveBgColor);
+        setBackgroundColor(binding.btnNegative, builder.buttonNegativeBgColor);
 
-    public static ModernDialog setDialogCornerRadius(int radius) {
-        setCornerRadius(binding.dialogView, radius);
-        return modernDialog;
-    }
+        // set corner radius
+        setCornerRadius(binding.dialogView, builder.dialogCornerRadius);
+        setCornerRadius(binding.btnPositive, builder.buttonCornerRadius);
+        setCornerRadius(binding.btnNegative, builder.buttonCornerRadius);
 
-    public static ModernDialog setTitle(boolean isEnable) {
-        setViewVisible(binding.tvTitle, isEnable);
-        return modernDialog;
-    }
+        // set text
+        binding.tvTitle.setText(builder.title);
+        binding.tvMessage.setText(builder.message);
+        binding.btnPositive.setText(builder.btnPositiveText);
+        binding.btnNegative.setText(builder.btnNegativeText);
 
-    public static ModernDialog setTitle(String title) {
-        binding.tvTitle.setText(title);
-        return modernDialog;
-    }
+        // set text color
+        binding.tvTitle.setTextColor(builder.titleTextColor);
+        binding.tvMessage.setTextColor(builder.messageTextColor);
 
-    public static ModernDialog setMessage(boolean isEnable) {
-        setViewVisible(binding.tvMessage, isEnable);
-        return modernDialog;
-    }
+        // set text alignment
+        binding.tvTitle.setGravity(builder.titleTextAlignment);
+        binding.tvMessage.setGravity(builder.messageTextAlignment);
 
-    public static ModernDialog setMessage(String message) {
-        binding.tvMessage.setText(message);
-        return modernDialog;
-    }
+        // set click event listener
+        binding.btnPositive.setOnClickListener(v -> builder.onPositiveListener.onPositive(dialog));
+        binding.btnNegative.setOnClickListener(v -> builder.onNegativeListener.onNegative(dialog));
 
-    public static ModernDialog setTitleAlignment(int alignment) {
-        setGravity(binding.tvTitle, alignment);
-        return modernDialog;
-    }
+        // set view visible
+        setViewVisible(binding.tvTitle, builder.isTitleVisible);
+        setViewVisible(binding.tvMessage, builder.isMessageVisible);
+        setViewVisible(binding.imageView, builder.isImageVisible);
+        setViewVisible(binding.btnPositive, builder.isPositiveButtonVisible);
+        setViewVisible(binding.btnNegative, builder.isNegativeButtonVisible);
 
-    public static ModernDialog setMessageAlignment(int alignment) {
-        setGravity(binding.tvMessage, alignment);
-        return modernDialog;
-    }
+        if (builder.isAnimationVisible) {
+            // set animation
+            if (!builder.animationJSONUrl.equals("")) {
+                setViewVisible(binding.animationView, true);
+                binding.animationView.setAnimationFromUrl(builder.animationJSONUrl);
+            } else if (builder.animationRawRes != 0) {
+                binding.animationView.setAnimation(builder.animationRawRes);
+            }
 
-    public static ModernDialog setPositiveButton(boolean isEnable) {
-        setViewVisible(binding.btnPositive, isEnable);
-        return modernDialog;
-    }
+            // set animation color
+            binding.animationView.addValueCallback(
+                    new KeyPath("**"),
+                    LottieProperty.COLOR_FILTER,
+                    frameInfo -> new PorterDuffColorFilter(builder.animationColorAllLayers, PorterDuff.Mode.SRC_ATOP)
+            );
+            binding.animationView.addValueCallback(
+                    new KeyPath(builder.animationLayerName, "**"),
+                    LottieProperty.COLOR_FILTER,
+                    frameInfo -> new PorterDuffColorFilter(builder.animationColorSpecificLayer, PorterDuff.Mode.SRC_ATOP)
+            );
 
-    public static ModernDialog setNegativeButton(boolean isEnable) {
-        setViewVisible(binding.btnNegative, isEnable);
-        return modernDialog;
-    }
+            // set animation loop count
+            binding.animationView.setRepeatCount(builder.animationLoop);
+            if (builder.isAnimationLoop) {
+                binding.animationView.setRepeatCount(ANIMATION_INFINITE);
+            }
 
-    public static ModernDialog setPositiveButton(View.OnClickListener listener, boolean isDismiss) {
-        if (isDismiss) {
-
+            // set animation mode
+            binding.animationView.setRepeatMode(builder.animationMode);
         }
-        binding.btnPositive.setOnClickListener(listener);
-        return modernDialog;
-    }
 
-    public static ModernDialog setNegativeButton(View.OnClickListener listener, boolean isDismiss) {
-        if (isDismiss) {
-
+        if (builder.isImageVisible) {
+            // set image
+            if (builder.imageRes != 0) {
+                binding.imageView.setImageResource(builder.imageRes);
+            } else if (!builder.imageUri.equals(Uri.EMPTY)) {
+                binding.imageView.setImageURI(builder.imageUri);
+            } else if (builder.imageDrawable != null) {
+                binding.imageView.setImageDrawable(builder.imageDrawable);
+            }
         }
-        binding.btnNegative.setOnClickListener(listener);
-        return modernDialog;
+
     }
 
-    public static ModernDialog setPositiveButtonText(String text) {
-        binding.btnPositive.setText(text);
-        return modernDialog;
+    public void dismiss() {
+        if (dialog != null)
+            dialog.dismiss();
     }
 
-    public static ModernDialog setNegativeButtonText(String text) {
-        binding.btnNegative.setText(text);
-        return modernDialog;
-    }
-
-    public static ModernDialog setPositiveButtonTextColor(int color) {
-        binding.btnPositive.setTextColor(color);
-        return modernDialog;
-    }
-
-    public static ModernDialog setNegativeButtonTextColor(int color) {
-        binding.btnNegative.setTextColor(color);
-        return modernDialog;
-    }
-
-    public static ModernDialog setPositiveButtonBackgroundColor(int color) {
-        binding.btnPositive.setBackgroundTintList(ColorStateList.valueOf(color));
-        return modernDialog;
-    }
-
-    public static ModernDialog setNegativeButtonBackgroundColor(int color) {
-        binding.btnNegative.setBackgroundTintList(ColorStateList.valueOf(color));
-        return modernDialog;
-    }
-
-    public static ModernDialog setPositiveButtonCornerRadius(int cornerRadius) {
-        setCornerRadius(binding.btnPositive, cornerRadius);
-        return modernDialog;
-    }
-
-    public static ModernDialog setNegativeButtonCornerRadius(int cornerRadius) {
-        setCornerRadius(binding.btnNegative, cornerRadius);
-        return modernDialog;
-    }
-
-    public static ModernDialog setImage(int imgRes) {
-        setViewVisible(binding.imageView, true);
-        setViewVisible(binding.animationView, false);
-        binding.imageView.setImageResource(imgRes);
-        return modernDialog;
-    }
-
-    public static ModernDialog setImage(Uri imageUri) {
-        setViewVisible(binding.imageView, true);
-        setViewVisible(binding.animationView, false);
-        binding.imageView.setImageURI(imageUri);
-        return modernDialog;
-    }
-
-    public static ModernDialog setImage(Drawable imageDrawable) {
-        setViewVisible(binding.imageView, true);
-        setViewVisible(binding.animationView, false);
-        binding.imageView.setImageDrawable(imageDrawable);
-        return modernDialog;
-    }
-
-    public static ModernDialog setAnimation(String url) {
-        setViewVisible(binding.imageView, false);
-        setViewVisible(binding.animationView, true);
-        binding.animationView.setAnimationFromUrl(url);
-        return modernDialog;
-    }
-
-    public static ModernDialog setAnimation(int rawRes) {
-        setViewVisible(binding.imageView, false);
-        setViewVisible(binding.animationView, true);
-        setViewVisible(binding.animationView, true);
-        binding.animationView.setAnimation(rawRes);
-        return modernDialog;
-    }
-
-    public static ModernDialog setAnimationColorOverlayForAllLayers(int color) {
-        binding.animationView.addValueCallback(
-                new KeyPath("**"),
-                LottieProperty.COLOR_FILTER,
-                frameInfo -> new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-        );
-        return modernDialog;
-    }
-
-    public static ModernDialog setAnimationColorOverlayForSpecificLayer(String layerName, int color) {
-        binding.animationView.addValueCallback(
-                new KeyPath(layerName, "**"),
-                LottieProperty.COLOR_FILTER,
-                frameInfo -> new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-        );
-        return modernDialog;
-    }
-
-    public static ModernDialog setAnimationLoop(int count) {
-        binding.animationView.setRepeatCount(count);
-        return modernDialog;
-    }
-
-    public static ModernDialog setAnimationMode(int mode) {
-        binding.animationView.setRepeatMode(mode);
-        return modernDialog;
-    }
-
-    /* PRIVATE METHODS */
-
-    private static void setViewVisible(View v, boolean isVisible) {
+    private void setViewVisible(View view, boolean isVisible) {
         if (isVisible) {
-            v.setVisibility(View.VISIBLE);
+            view.setVisibility(View.VISIBLE);
         } else {
-            v.setVisibility(View.GONE);
+            view.setVisibility(View.GONE);
         }
     }
 
-    private static void setGravity(TextView v, int gravity) {
-        v.setGravity(gravity);
+    private void setGravity(TextView view, int gravity) {
+        view.setGravity(gravity);
     }
 
-    private static void setCornerRadius(View v, int cornerRadius) {
-        v.setBackground(new GradientDrawable() {
-            public GradientDrawable apply(int cornerRadius) {
-                this.setCornerRadius(cornerRadius);
+    private void setBackgroundColor(View view, int color) {
+        view.setBackgroundTintList(ColorStateList.valueOf(color));
+    }
+
+    private static void setCornerRadius(View view, int radius) {
+        view.setBackground(new GradientDrawable() {
+            public GradientDrawable apply(int radius) {
+                this.setCornerRadius(radius);
                 return this;
             }
-        }.apply(cornerRadius));
+        }.apply(radius));
     }
 
-    private static int getColor(Context context, int color) {
-        return ContextCompat.getColor(context, color);
+    public static class Builder {
+
+        private Context context;
+
+        // Basic settings
+        private String title;
+        private String message;
+        private boolean isCancelable = true;
+        private boolean isCancelableTouchOutside = false;
+
+        // Advanced settings
+        private int dialogBgColor = COLOR_WHITE;
+        private int dialogCornerRadius = 60;
+
+        private int titleTextColor = COLOR_BLACK;
+        private int messageTextColor = COLOR_GREY;
+        private int titleTextAlignment = ALIGNMENT_CENTER;
+        private int messageTextAlignment = ALIGNMENT_CENTER;
+
+        private int buttonCornerRadius = 80;
+        private int buttonPositiveBgColor = COLOR_ACCENT;
+        private int buttonNegativeBgColor = COLOR_LIGHT_WHITE;
+
+        private String animationJSONUrl = "";
+        private String animationLayerName = "";
+
+        private int animationRawRes;
+        private int animationColorAllLayers;
+        private int animationColorSpecificLayer;
+        private int animationLoop;
+        private int animationMode;
+
+        private int imageRes;
+        private Uri imageUri;
+        private Drawable imageDrawable;
+
+        private boolean isTitleVisible = true;
+        private boolean isMessageVisible = true;
+        private boolean isAnimationVisible = false;
+        private boolean isImageVisible = false;
+        private boolean isPositiveButtonVisible = true;
+        private boolean isNegativeButtonVisible = true;
+
+        private boolean isAnimationLoop = false;
+
+        private String btnPositiveText = String.valueOf(android.R.string.ok);
+        private onPositiveListener onPositiveListener = modernDialog -> {};
+
+        private String btnNegativeText = String.valueOf(android.R.string.cancel);
+        private onNegativeListener onNegativeListener = modernDialog -> {};
+
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        public ModernDialog show() {
+            return new ModernDialog(this);
+        }
+
+        /* ==== BASIC DIALOG CONFIG ==== */
+        public Builder setTitle(String text) {
+            this.title = text;
+            return this;
+        }
+
+        public Builder setMessage(String text) {
+            this.message = text;
+            return this;
+        }
+
+        public Builder setCancelable(boolean isCancelable, boolean isCancelableTouchOutside) {
+            this.isCancelable = isCancelable;
+            this.isCancelableTouchOutside = isCancelableTouchOutside;
+            return this;
+        }
+
+        public Builder setPositiveButton(String text, onPositiveListener listener) {
+            this.btnPositiveText = text;
+            this.onPositiveListener = listener;
+            return this;
+        }
+
+        public Builder setNegativeButton(String text, onNegativeListener listener) {
+            this.btnNegativeText = text;
+            this.onNegativeListener = listener;
+            return this;
+        }
+
+        /* ==== ADVANCED DIALOG CONFIG ==== */
+        /* ==== [DIALOG] ==== */
+        public Builder setDialogBackgroundColor(int color) {
+            this.dialogBgColor = color;
+            return this;
+        }
+
+        public Builder setDialogCornerRadius(int radius) {
+            this.dialogCornerRadius = radius;
+            return this;
+        }
+
+        /* ==== [TITLE] ==== */
+        public Builder setTitleTextColor(int color) {
+            this.titleTextColor = color;
+            return this;
+        }
+
+        public Builder setTitleTextAlignment(int align) {
+            this.titleTextAlignment = align;
+            return this;
+        }
+
+        /* ==== [MESSAGE] ==== */
+        public Builder setMessageTextColor(int color) {
+            this.messageTextColor = color;
+            return this;
+        }
+
+        public Builder setMessageTextAlignment(int align) {
+            this.messageTextAlignment = align;
+            return this;
+        }
+
+        /* ==== [ANIMATION] ==== */
+        public Builder setAnimation(boolean isVisible) {
+            this.isImageVisible = false;
+            this.isAnimationVisible = isVisible;
+            return this;
+        }
+
+        public Builder setAnimation(String url) {
+            this.isImageVisible = false;
+            this.isAnimationVisible = true;
+            this.animationJSONUrl = url;
+            return this;
+        }
+
+        public Builder setAnimation(int rawRes) {
+            this.isImageVisible = false;
+            this.isAnimationVisible = true;
+            this.animationRawRes = rawRes;
+            return this;
+        }
+
+        public Builder setAnimationColorOverlayForAllLayers(int color) {
+            this.isImageVisible = false;
+            this.isAnimationVisible = true;
+            this.animationColorAllLayers = color;
+            return this;
+        }
+
+        public Builder setAnimationColorOverlayForSpecificLayer(String layerName, int color) {
+            this.isImageVisible = false;
+            this.isAnimationVisible = true;
+            this.animationLayerName = layerName;
+            this.animationColorSpecificLayer = color;
+            return this;
+        }
+
+        public Builder setAnimationLoop(int count) {
+            this.isImageVisible = false;
+            this.isAnimationVisible = true;
+            this.animationLoop = count;
+            return this;
+        }
+
+        public Builder setAnimationLoop(boolean isLoop) {
+            this.isImageVisible = false;
+            this.isAnimationVisible = true;
+            this.isAnimationLoop = isLoop;
+            return this;
+        }
+
+        public Builder setAnimationMode(int mode) {
+            this.isImageVisible = false;
+            this.isAnimationVisible = true;
+            this.animationMode = mode;
+            return this;
+        }
+
+        /* ==== [IMAGE] ==== */
+        public Builder setImage(boolean isVisible) {
+            this.isAnimationVisible = false;
+            this.isImageVisible = isVisible;
+            return this;
+        }
+
+        public Builder setImage(int imgRes) {
+            this.isAnimationVisible = false;
+            this.isImageVisible = true;
+            this.imageRes = imgRes;
+            return this;
+        }
+
+        public Builder setImage(Uri imgUri) {
+            this.isAnimationVisible = false;
+            this.isImageVisible = true;
+            this.imageUri = imgUri;
+            return this;
+        }
+
+        public Builder setImage(Drawable imageDrawable) {
+            this.isAnimationVisible = false;
+            this.isImageVisible = true;
+            this.imageDrawable = imageDrawable;
+            return this;
+        }
+
+        /* ==== [POSITIVE BUTTON] ==== */
+        public Builder setPositiveButton(boolean isVisible) {
+            this.isPositiveButtonVisible = isVisible;
+            return this;
+        }
+
+        public Builder setPositiveButtonBackgroundColor(int color) {
+            this.buttonPositiveBgColor = color;
+            return this;
+        }
+
+        public Builder setPositiveButtonCornerRadius(int radius) {
+            this.buttonCornerRadius = radius;
+            return this;
+        }
+
+        /* ==== [NEGATIVE BUTTON] ==== */
+        public Builder setNegativeButton(boolean isVisible) {
+            this.isNegativeButtonVisible = isVisible;
+            return this;
+        }
+
+        public Builder setNegativeButtonBackgroundColor(int color) {
+            this.buttonNegativeBgColor = color;
+            return this;
+        }
+
+        public Builder setNegativeButtonCornerRadius(int radius) {
+            this.buttonCornerRadius = radius;
+            return this;
+        }
+
+    }
+
+    public interface onPositiveListener {
+        void onPositive(AlertDialog modernDialog);
+    }
+
+    public interface onNegativeListener {
+        void onNegative(AlertDialog modernDialog);
     }
 
 }
