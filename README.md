@@ -42,13 +42,13 @@ dependencyResolutionManagement {
 
 ### Step 2 - Add Dependency
 
-Add the dependency in your app `build.gradle` or `build.gradle (Module.app)` inside `Gradle Scripts`.
+Add the dependency in your app `build.gradle` or `build.gradle (Module: xxx.app)` inside `Gradle Scripts`.
 
 The `$version` can be found in [Releases]().
 
 ```
 dependencies {
-    implementation 'com.bluewhaleyt.moderndialog:ModernDialog:$version'
+    implementation 'com.github.BlueWhaleYT:ModernDialog:$version'
 }
 ```
 
