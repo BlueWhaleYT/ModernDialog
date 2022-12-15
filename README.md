@@ -46,7 +46,7 @@ The `$version` can be found in [Releases]().
 
 ```
 dependencies {
-    implementation 'com.bluewhaleyt.moderndialog:ModernDialog:$version'
+    implementation 'com.github.BlueWhaleYT:ModernDialog:$version'
 }
 ```
 
