@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Initialize this dialog instance can call its methods everywhere.
+    // initialize this dialog class can call its methods everywhere.
     ModernDialog dialog;
 
     @Override
@@ -23,11 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
         // here's the sample of dialog configuration
         dialog = new ModernDialog.Builder(this)
+                .setDialogType(ModernDialog.DIALOG_TYPE_BOTTOM_SHEET)
                 .setTitle("Hello World")
                 .setMessage("A whale jumps over the lazy dog.")
                 .setPositiveButton("ok", v -> clickEvent())
                 .setPositiveButtonBackgroundColor(0xFF536DFE)
-                .setNegativeButton("close", Dialog::dismiss) // you can use lambda to call dialog dismiss
+                .setNegativeButton("close", null)
                 .setCancelable(true, false)
                 .setAnimation("https://assets10.lottiefiles.com/packages/lf20_uu0x8lqv.json")
                 .setAnimationLoop(true)
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clickEvent() {
-        dialog.dismiss(); // you can also simply do this to dismiss since you have defined the instance
+        Toast.makeText(this, "hello 123", Toast.LENGTH_SHORT).show();
     }
 
 }

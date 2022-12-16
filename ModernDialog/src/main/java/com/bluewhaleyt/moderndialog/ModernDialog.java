@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -20,12 +21,13 @@ import com.airbnb.lottie.LottieDrawable;
 import com.airbnb.lottie.LottieProperty;
 import com.airbnb.lottie.model.KeyPath;
 import com.bluewhaleyt.moderndialog.databinding.ModernDialogBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class ModernDialog {
 
     // UNAVAILABLE CONSTANTS
-    private final static int COLOR_BLACK = 0xFF000000;
-    private final static int COLOR_GREY = 0xFF626262;
+    private final static int COLOR_BLACK = 0xFF212121;
+    private final static int COLOR_GREY = 0xFF9E9E9E;
     private final static int COLOR_WHITE = 0xFFFFFFFF;
     private final static int COLOR_LIGHT_WHITE = 0xFFF5F5F5;
     private final static int COLOR_ACCENT = 0xFF6200EE;
@@ -42,25 +44,37 @@ public class ModernDialog {
     public final static int ANIMATION_RESTART = LottieDrawable.RESTART;
     public final static int ANIMATION_REVERSE = LottieDrawable.REVERSE;
 
+    public final static int DIALOG_TYPE_DEFAULT = 10;
+    public final static int DIALOG_TYPE_BOTTOM_SHEET = 11;
+
     @SuppressLint("StaticFieldLeak")
     private static ModernDialogBinding binding;
 
-    public AlertDialog dialog = null;
+    public AlertDialog dialog;
+    public BottomSheetDialog dialogBS;
 
     public ModernDialog(final Builder builder) {
 
         binding = ModernDialogBinding.inflate(LayoutInflater.from(builder.context));
-        dialog = new AlertDialog.Builder(builder.context).create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.setView(binding.getRoot());
-        dialog.show();
+
+        if (builder.dialogType == DIALOG_TYPE_DEFAULT) {
+            dialog = new AlertDialog.Builder(builder.context).create();
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.setView(binding.getRoot());
+            dialog.show();
+            // set cancelable
+            dialog.setCancelable(builder.isCancelable);
+            dialog.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);
+        } else if (builder.dialogType == DIALOG_TYPE_BOTTOM_SHEET) {
+            dialogBS = new BottomSheetDialog(builder.context, R.style.ThemeOverlay_App_BottomSheetDialog);
+            dialogBS.setContentView(binding.getRoot());
+            dialogBS.show();
+            // set cancelable
+            dialogBS.setCancelable(builder.isCancelable);
+            dialogBS.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);
+        }
 
         // apply configuration
-        // set cancelable
-        dialog.setCancelable(builder.isCancelable);
-        dialog.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);
-
         // set background
         setBackgroundColor(binding.dialogView, builder.dialogBgColor);
         setBackgroundColor(binding.btnPositive, builder.buttonPositiveBgColor);
@@ -85,16 +99,49 @@ public class ModernDialog {
         binding.tvTitle.setGravity(builder.titleTextAlignment);
         binding.tvMessage.setGravity(builder.messageTextAlignment);
 
-        // set click event listener
-        binding.btnPositive.setOnClickListener(v -> builder.onPositiveListener.onPositive(dialog));
-        binding.btnNegative.setOnClickListener(v -> builder.onNegativeListener.onNegative(dialog));
-
         // set view visible
         setViewVisible(binding.tvTitle, builder.isTitleVisible);
         setViewVisible(binding.tvMessage, builder.isMessageVisible);
         setViewVisible(binding.imageView, builder.isImageVisible);
         setViewVisible(binding.btnPositive, builder.isPositiveButtonVisible);
         setViewVisible(binding.btnNegative, builder.isNegativeButtonVisible);
+
+        // set click event listener
+        if (builder.dialogType == DIALOG_TYPE_DEFAULT) {
+            if (builder.onPositiveListener != null) {
+                binding.btnPositive.setOnClickListener(v -> {
+                    builder.onPositiveListener.onPositive(dialog);
+                    if (builder.isDialogDismiss) dialog.dismiss();
+                });
+            } else {
+                binding.btnPositive.setOnClickListener(v -> dialog.dismiss());
+            }
+            if (builder.onNegativeListener != null) {
+                binding.btnNegative.setOnClickListener(v -> {
+                    builder.onNegativeListener.onNegative(dialog);
+                    if (builder.isDialogDismiss) dialog.dismiss();
+                });
+            } else {
+                binding.btnNegative.setOnClickListener(v -> dialog.dismiss());
+            }
+        } else if (builder.dialogType == DIALOG_TYPE_BOTTOM_SHEET) {
+            if (builder.onPositiveListener != null) {
+                binding.btnPositive.setOnClickListener(v -> {
+                    builder.onPositiveListener.onPositive(dialog);
+                    if (builder.isDialogDismiss) dialogBS.dismiss();
+                });
+            } else {
+                binding.btnPositive.setOnClickListener(v -> dialogBS.dismiss());
+            }
+            if (builder.onNegativeListener != null) {
+                binding.btnNegative.setOnClickListener(v -> {
+                    builder.onNegativeListener.onNegative(dialog);
+                    if (builder.isDialogDismiss) dialogBS.dismiss();
+                });
+            } else {
+                binding.btnNegative.setOnClickListener(v -> dialogBS.dismiss());
+            }
+        }
 
         if (builder.isAnimationVisible) {
             // set animation
@@ -144,8 +191,9 @@ public class ModernDialog {
      * Description:     <b>dismiss()</b> is to dismiss and close the dialog.
      */
     public void dismiss() {
-        if (dialog != null)
+        if (dialog != null) {
             dialog.dismiss();
+        }
     }
 
     /**
@@ -195,15 +243,16 @@ public class ModernDialog {
         private boolean isCancelableTouchOutside = false;
 
         // Advanced settings - (DEFAULT)
+        private int dialogType = DIALOG_TYPE_DEFAULT;
         private int dialogBgColor = COLOR_WHITE;
-        private int dialogCornerRadius = 60;
+        private int dialogCornerRadius = CORNER_RADIUS_DIALOG;
 
         private int titleTextColor = COLOR_BLACK;
         private int messageTextColor = COLOR_GREY;
         private int titleTextAlignment = ALIGNMENT_CENTER;
         private int messageTextAlignment = ALIGNMENT_CENTER;
 
-        private int buttonCornerRadius = 80;
+        private int buttonCornerRadius = CORNER_RADIUS_BUTTON;
         private int buttonPositiveBgColor = COLOR_ACCENT;
         private int buttonNegativeBgColor = COLOR_LIGHT_WHITE;
 
@@ -220,13 +269,13 @@ public class ModernDialog {
         private Uri imageUri;
         private Drawable imageDrawable;
 
+        private boolean isDialogDismiss = true;
         private boolean isTitleVisible = true;
         private boolean isMessageVisible = true;
         private boolean isAnimationVisible = false;
         private boolean isImageVisible = false;
         private boolean isPositiveButtonVisible = true;
         private boolean isNegativeButtonVisible = true;
-
         private boolean isAnimationLoop = false;
 
         private String btnPositiveText = String.valueOf(android.R.string.ok);
@@ -319,6 +368,16 @@ public class ModernDialog {
 
         /* ==== ADVANCED DIALOG CONFIG ==== */
         /* ==== [DIALOG] ==== */
+
+        public Builder setDialogDismiss(boolean isDismiss) {
+            this.isDialogDismiss = isDismiss;
+            return this;
+        }
+
+        public Builder setDialogType(int type) {
+            this.dialogType = type;
+            return this;
+        }
 
         /**
          * Description:     <b>setDialogBackgroundColor()</b> is to apply a background tint color to the dialog
