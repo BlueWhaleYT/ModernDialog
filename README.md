@@ -60,14 +60,13 @@ Before creating the ModernDialog, I highly recommend you to initialize the insta
 ModernDialog dialog;
 ```
 
-Then, you now can use the dialog with configuration. Like `AlertDialog`, the dialog creates as below:
+Then, you now can use the dialog with configuration. Like the build of `AlertDialog`, the dialog creates as below:
 
 ```java
 dialog = new ModernDialog.Builder(this)
         .setTitle("Your title here")
         .setMessage("Your text here")
-        .setPositiveButton("OK", v -> clickEvent())
-        .setPositiveButtonBackgroundColor(0xFF42A5F5)
-        .setNegativeButton("Close", Dialog::dismiss)
+        .setPositiveButton("OK", listener)
+        .setNegativeButton("Close", listener)
         .setCancelable(true, false)
 ```
