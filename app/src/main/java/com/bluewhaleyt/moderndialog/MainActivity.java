@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding.versionName.setText(versionName);
         binding.btnDefaultDialog.setOnClickListener(view -> dialogDefault());
-        binding.btnBottomSheetDialog.setOnClickListener(view -> dialogBottomSheet());
         binding.btnDefaultDialogWithAnimation.setOnClickListener(view -> dialogDefaultWithAnimation());
+        binding.btnBottomSheetDialog.setOnClickListener(view -> dialogBottomSheet());
         binding.btnBottomSheetDialogWithAnimation.setOnClickListener(view -> dialogBottomSheetWithAnimation());
         binding.btnGithub.setOnClickListener(view -> gotoGithub());
 
@@ -80,19 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void dialogBottomSheet() {
-
-        dialog = new ModernDialog.Builder(this)
-                .setDialogStyle(ModernDialog.DIALOG_STYLE_BOTTOM_SHEET)
-                .setTitle(str2)
-                .setMessage(str4)
-                .setTitleTextAlignment(ModernDialog.ALIGNMENT_LEFT)
-                .setMessageTextAlignment(ModernDialog.ALIGNMENT_LEFT)
-                .setPositiveButton(false)
-                .show();
-
-    }
-
     private void dialogDefaultWithAnimation() {
 
         // here's the sample of dialog configuration
@@ -107,6 +94,19 @@ public class MainActivity extends AppCompatActivity {
                 .setAnimationColorOverlayForAllLayers(color2)
                 // the layerName named according to the animation JSON files
                 .setAnimationColorOverlayForSpecificLayer("Shape Layer 3", 0xFFFFFFFF)
+                .show();
+
+    }
+
+    private void dialogBottomSheet() {
+
+        dialog = new ModernDialog.Builder(this)
+                .setDialogStyle(ModernDialog.DIALOG_STYLE_BOTTOM_SHEET)
+                .setTitle(str2)
+                .setMessage(str4)
+                .setTitleTextAlignment(ModernDialog.ALIGNMENT_LEFT)
+                .setMessageTextAlignment(ModernDialog.ALIGNMENT_LEFT)
+                .setPositiveButton(false)
                 .show();
 
     }
