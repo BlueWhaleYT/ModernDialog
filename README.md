@@ -4,14 +4,14 @@
 
 Do you feel frustrated about using `AlertDialog` and `MaterialAlertDialog` with their normal designs? If so, ModernDialog is your new choice. It is a powerful library for Android Development written in Java.
 
-## Features
+## ![](https://placehold.co/15x15/5352ed/5352ed.png) Features
 
 Modern Dialog supports [Lottie Animations](https://lottiefiles.com/) by default, **you are not required to add this library on your own.** However, if you're interested about the development of Lottie Animation, you can go to this [documentation](https://github.com/airbnb/lottie-android) for more details.
 
-## Get Started
+## ![](https://placehold.co/15x15/5352ed/5352ed.png) Get Started
 You are required to follow the instruction if you want to use this library in your project.
 
-### Step 1 - Add JitPack Repository
+### ![](https://placehold.co/15x15/ffa502/ffa502.png) Step 1 - Add JitPack Repository
 Add the JitPack repository to your root `build.gradle` or `build.gradle (Project: xxx)` inside `Gradle Scripts`.
 
 ```kt
@@ -43,7 +43,7 @@ dependencyResolutionManagement {
 }
 ```
 
-### Step 2 - Add Dependency
+### ![](https://placehold.co/15x15/ffa502/ffa502.png) Step 2 - Add Dependency
 
 Add the dependency in your app `build.gradle` or `build.gradle (Module: xxx.app)` inside `Gradle Scripts`.
 
@@ -55,7 +55,7 @@ dependencies {
 }
 ```
 
-## Usage
+## ![](https://placehold.co/15x15/5352ed/5352ed.png) Usage
 
 These are the basic methods came from original `Dialog`, so we're not going to investigate these methods.
 
@@ -79,6 +79,9 @@ ModernDialog dialog = new ModernDialog.Builder(this)
         // set negative button, set "null" if dismiss only
         .setNegativeButton("Close", null)
 
+        // show the dialog
+        .show(;)
+
 ```
 
 ```java
@@ -95,9 +98,9 @@ ModernDialog dialog = new ModernDialog.Builder(this)
     // code here
 });
 ```
-### Dialog
+### ![](https://placehold.co/15x15/ffa502/ffa502.png) Dialog
 
-#### Dismiss
+#### ![](https://placehold.co/15x15/2ed573/2ed673.png) Dismiss
 
 Sometimes you don't want the dialog to be dismissed after clicking the positive button or anything else. By default, the dismiss action will be executed after the click listener is done. If you want to ignore this, you can simply add this code.
 
@@ -107,7 +110,7 @@ Sometimes you don't want the dialog to be dismissed after clicking the positive 
 
 Note that if you set `null` in the click listener, this method will not work and will still dismiss the dialog.
 
-#### Style
+#### ![](https://placehold.co/15x15/2ed573/2ed673.png) Style
 
 ModernDialog has provided two styles, one is default, another one is Bottom Sheet style. Let's see how we can alter the dialog to Bottom Sheet style.
 
@@ -121,7 +124,7 @@ If you want to specific its style to a default style, this code below will set t
 .setDialogStyle(ModernDialog.DIALOG_STYLE_DEFAULT)
 ```
 
-### Animation
+### ![](https://placehold.co/15x15/ffa502/ffa502.png) Animation
 
 ModernDialog supports Lottie Animations by default. Before initializing your animation file, you need to enable it first. However, this action will be automatically done after setting the animation file, this method is a stright method.
 
@@ -136,7 +139,7 @@ Now we're going to load the animation to the dialog. Currently, there are two wa
 .setAnimation(int rawRes)
 ```
 
-#### Load animation via URL
+#### ![](https://placehold.co/15x15/2ed573/2ed673.png) Load animation via URL
 
 Now, go to [Lottie Animations](https://lottiefiles.com/) and search for any animations you like, find the `Lottie Animation URL` section and copy the URL for later use.
 
@@ -148,7 +151,7 @@ Once we copied it, we can now load the selected animation to the dialog. For exa
 
 Very simple, isn't it?
 
-#### Load animation via raw resource
+#### ![](https://placehold.co/15x15/2ed573/2ed673.png) Load animation via raw resource
 
 Instead of grabing the URL, we need to find the `Download` button and download it by clicking `Lottie JSON`.
 
@@ -164,7 +167,7 @@ Then, this JSON file can be loaded via:
 
 Done, enjoy the dialog within the beautiful animation!
 
-#### Set the animation to play repeatedly
+#### ![](https://placehold.co/15x15/2ed573/2ed673.png) Set the animation to play repeatedly
 
 By default, animation is played for once, if you want to loop the animation. You can add following.
 
@@ -180,11 +183,11 @@ Or, you want to specific its repeat time, then you can set like below:
 .setAnimationLoop(int count)
 ```
 
-#### Set color to the animation
+#### ![](https://placehold.co/15x15/2ed573/2ed673.png) Set color to the animation
 
 When the animation is sucessfully loaded, sometimes you may not feel satisfied the color of the animation. Therefore, there are two methods to apply colors to the animation.
 
-##### Set color globally
+##### ![](https://placehold.co/15x15/ff4757/ff4757.png) Set color globally
 
 If you just want to change whole set of color overlay, then you can change it globally. That's mean, the animation's color overlay will be applied once you set the color.
 
@@ -192,7 +195,7 @@ If you just want to change whole set of color overlay, then you can change it gl
 .setAnimationColorOverlayForAllLayers(int color)
 ```
 
-##### Set color specifically
+##### ![](https://placehold.co/15x15/ff4757/ff4757.png) Set color specifically
 
 You may want to change a part of the layer's color instead of changing whole set of animation's color. Then, you need to specific the layer name and set its color.
 
