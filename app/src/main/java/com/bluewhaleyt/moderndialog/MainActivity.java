@@ -1,20 +1,27 @@
 package com.bluewhaleyt.moderndialog;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.bluewhaleyt.moderndialog.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
+
+    ActivityMainBinding binding;
 
     // initialize this dialog class can call its methods everywhere.
     ModernDialog dialog;
@@ -22,14 +29,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        Button btn1 = findViewById(R.id.btn1);
-        Button btn2 = findViewById(R.id.btn2);
-        Button btn3 = findViewById(R.id.btn3);
-        btn1.setOnClickListener(view -> dialogDefault());
-        btn2.setOnClickListener(view -> dialogBottomSheet());
-        btn3.setOnClickListener(view -> gotoGithub());
+        binding.btn1.setOnClickListener(view -> dialogDefault());
+        binding.btn2.setOnClickListener(view -> dialogBottomSheet());
+        binding.btn3.setOnClickListener(view -> gotoGithub());
+
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                binding.switchTheme.setChecked(true);
+                break;
+
+            case Configuration.UI_MODE_NIGHT_NO:
+                binding.switchTheme.setChecked(false);
+                break;
+        }
+
+        binding.switchTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+        });
 
     }
 
@@ -59,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("Bottom Sheet Dialog")
                 .setMessage("This is a simple bottom sheet dialog using ModernDialog library. The animation is provided by Lottie Animations.")
                 .setPositiveButton("ok", v -> clickEvent())
-                .setPositiveButtonBackgroundColor(0xFF00E676)
+                .setPositiveButtonBackgroundColor(0xFF69F0AE)
+                .setPositiveButtonTextColor(0xFF000000)
                 .setNegativeButton("close", null)
                 .setCancelable(true, false)
                 .setAnimation("https://assets7.lottiefiles.com/packages/lf20_iIq3IA.json")

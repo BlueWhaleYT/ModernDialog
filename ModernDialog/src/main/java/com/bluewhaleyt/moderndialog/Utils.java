@@ -1,5 +1,8 @@
 package com.bluewhaleyt.moderndialog;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Handler;
 
 import java.util.concurrent.Callable;
@@ -48,6 +51,18 @@ public class Utils {
             }
         };
         handler.postDelayed(runnable, time);
+    }
+
+    public static boolean isInDarkMode(Context context) {
+        int nightModeFlags = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                return true;
+
+            case Configuration.UI_MODE_NIGHT_NO:
+                return false;
+        }
+        return true;
     }
 
 }

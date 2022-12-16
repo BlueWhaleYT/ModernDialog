@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieDrawable;
 import com.airbnb.lottie.LottieProperty;
@@ -31,6 +32,8 @@ public class ModernDialog {
     private final static int COLOR_WHITE = 0xFFFFFFFF;
     private final static int COLOR_LIGHT_WHITE = 0xFFF5F5F5;
     private final static int COLOR_ACCENT = 0xFF6200EE;
+
+    public final static int COLOR_BLACK_DARKMODE = 0xFF161616;
 
     // AVAILABLE CONSTANTS
     public final static int CORNER_RADIUS_DIALOG = 60;
@@ -74,6 +77,13 @@ public class ModernDialog {
             dialogBS.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);
         }
 
+        // check if the device is in dark mode
+        if (Utils.isInDarkMode(builder.context)) {
+            builder.setDarkMode(true);
+        } else {
+            builder.setDarkMode(false);
+        }
+
         // apply configuration
         // set background
         setBackgroundColor(binding.dialogView, builder.dialogBgColor);
@@ -94,6 +104,8 @@ public class ModernDialog {
         // set text color
         binding.tvTitle.setTextColor(builder.titleTextColor);
         binding.tvMessage.setTextColor(builder.messageTextColor);
+        binding.btnPositive.setTextColor(builder.buttonPositiveTextColor);
+        binding.btnNegative.setTextColor(builder.buttonNegativeTextColor);
 
         // set text alignment
         binding.tvTitle.setGravity(builder.titleTextAlignment);
@@ -247,6 +259,9 @@ public class ModernDialog {
         private int buttonPositiveBgColor = COLOR_ACCENT;
         private int buttonNegativeBgColor = COLOR_LIGHT_WHITE;
 
+        private int buttonPositiveTextColor = COLOR_WHITE;
+        private int buttonNegativeTextColor = COLOR_BLACK;
+
         private String animationJSONUrl = "";
         private String animationLayerName = "";
 
@@ -259,6 +274,8 @@ public class ModernDialog {
         private int imageRes;
         private Uri imageUri;
         private Drawable imageDrawable;
+
+        private boolean isDarkMode = false;
 
         private boolean isDialogDismiss = true;
         private boolean isTitleVisible = true;
@@ -622,6 +639,11 @@ public class ModernDialog {
             return this;
         }
 
+        public Builder setPositiveButtonTextColor(int color) {
+            this.buttonPositiveTextColor = color;
+            return this;
+        }
+
         /**
          * Description:     <b>setPositiveButtonBackgroundColor()</b> is to apply a background tint color to the positive button
          * @param color     (int) The color to be set <br>
@@ -656,6 +678,11 @@ public class ModernDialog {
             return this;
         }
 
+        public Builder setNegativeButtonTextColor(int color) {
+            this.buttonNegativeTextColor = color;
+            return this;
+        }
+
         /**
          * Description:     <b>setNegativeButtonBackgroundColor()</b> is to apply a background tint color to the negative button
          * @param color     (int) The color to be set <br>
@@ -675,6 +702,18 @@ public class ModernDialog {
          */
         public Builder setNegativeButtonCornerRadius(int radius) {
             this.buttonCornerRadius = radius;
+            return this;
+        }
+
+        public Builder setDarkMode(boolean isDarkMode) {
+            this.isDarkMode = isDarkMode;
+            if (isDarkMode) {
+                this.dialogBgColor = COLOR_BLACK_DARKMODE;
+                this.titleTextColor = COLOR_WHITE;
+                this.messageTextColor = 0xFFBDBDBD;
+                this.buttonNegativeBgColor = 0xFF212121;
+                this.buttonNegativeTextColor = COLOR_WHITE;
+            }
             return this;
         }
 
