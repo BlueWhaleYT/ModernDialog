@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'com.bluewhaleyt.moderndialog'
+    namespace 'com.bluewhaleyt.moderndialog.app'
     compileSdk 32
 
     defaultConfig {
