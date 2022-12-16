@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 .setCancelable(true, false)
                 .setAnimation("https://assets7.lottiefiles.com/packages/lf20_iIq3IA.json")
                 .setAnimationLoop(true)
-                // the layerName named according to the animation JSON files
                 .show();
 
     }
