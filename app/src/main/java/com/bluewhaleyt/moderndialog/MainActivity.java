@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         // here's the sample of dialog configuration
         dialog = new ModernDialog.Builder(this)
-                .setDialogType(ModernDialog.DIALOG_TYPE_BOTTOM_SHEET)
+                .setDialogStyle(ModernDialog.DIALOG_STYLE_BOTTOM_SHEET)
                 .setTitle("Hello World")
                 .setMessage("A whale jumps over the lazy dog.")
                 .setPositiveButton("ok", v -> clickEvent())

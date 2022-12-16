@@ -44,8 +44,8 @@ public class ModernDialog {
     public final static int ANIMATION_RESTART = LottieDrawable.RESTART;
     public final static int ANIMATION_REVERSE = LottieDrawable.REVERSE;
 
-    public final static int DIALOG_TYPE_DEFAULT = 10;
-    public final static int DIALOG_TYPE_BOTTOM_SHEET = 11;
+    public final static int DIALOG_STYLE_DEFAULT = 10;
+    public final static int DIALOG_STYLE_BOTTOM_SHEET = 11;
 
     @SuppressLint("StaticFieldLeak")
     private static ModernDialogBinding binding;
@@ -57,7 +57,7 @@ public class ModernDialog {
 
         binding = ModernDialogBinding.inflate(LayoutInflater.from(builder.context));
 
-        if (builder.dialogType == DIALOG_TYPE_DEFAULT) {
+        if (builder.dialogStyle == DIALOG_STYLE_DEFAULT) {
             dialog = new AlertDialog.Builder(builder.context).create();
             dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialog.setView(binding.getRoot());
@@ -65,7 +65,7 @@ public class ModernDialog {
             // set cancelable
             dialog.setCancelable(builder.isCancelable);
             dialog.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);
-        } else if (builder.dialogType == DIALOG_TYPE_BOTTOM_SHEET) {
+        } else if (builder.dialogStyle == DIALOG_STYLE_BOTTOM_SHEET) {
             dialogBS = new BottomSheetDialog(builder.context, R.style.ThemeOverlay_App_BottomSheetDialog);
             dialogBS.setContentView(binding.getRoot());
             dialogBS.show();
@@ -107,7 +107,7 @@ public class ModernDialog {
         setViewVisible(binding.btnNegative, builder.isNegativeButtonVisible);
 
         // set click event listener
-        if (builder.dialogType == DIALOG_TYPE_DEFAULT) {
+        if (builder.dialogStyle == DIALOG_STYLE_DEFAULT) {
             if (builder.onPositiveListener != null) {
                 binding.btnPositive.setOnClickListener(v -> {
                     builder.onPositiveListener.onPositive(dialog);
@@ -124,7 +124,7 @@ public class ModernDialog {
             } else {
                 binding.btnNegative.setOnClickListener(v -> dialog.dismiss());
             }
-        } else if (builder.dialogType == DIALOG_TYPE_BOTTOM_SHEET) {
+        } else if (builder.dialogStyle == DIALOG_STYLE_BOTTOM_SHEET) {
             if (builder.onPositiveListener != null) {
                 binding.btnPositive.setOnClickListener(v -> {
                     builder.onPositiveListener.onPositive(dialog);
@@ -234,7 +234,7 @@ public class ModernDialog {
         private boolean isCancelableTouchOutside = false;
 
         // Advanced settings - (DEFAULT)
-        private int dialogType = DIALOG_TYPE_DEFAULT;
+        private int dialogStyle = DIALOG_STYLE_DEFAULT;
         private int dialogBgColor = COLOR_WHITE;
         private int dialogCornerRadius = CORNER_RADIUS_DIALOG;
 
@@ -365,8 +365,8 @@ public class ModernDialog {
             return this;
         }
 
-        public Builder setDialogType(int type) {
-            this.dialogType = type;
+        public Builder setDialogStyle(int style) {
+            this.dialogStyle = style;
             return this;
         }
 
