@@ -46,21 +46,21 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
+        android:padding="20dp"
         android:gravity="center"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/btn1"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
             android:text="Default Dialog" />
 
         <Button
             android:id="@+id/btn2"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
             android:text="Bottom Sheet Dialog" />
 
     </LinearLayout>
@@ -74,13 +74,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Version 1.0.1"/>
+            android:text="Created by BlueWhaleYT  -  v1.0.1   - "/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn3"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             android:text="Github"/>
 
     </LinearLayout>
