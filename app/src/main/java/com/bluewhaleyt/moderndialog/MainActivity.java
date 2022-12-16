@@ -26,11 +26,14 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("Hello World")
                 .setMessage("A whale jumps over the lazy dog.")
                 .setPositiveButton("ok", v -> clickEvent())
-                .setPositiveButtonBackgroundColor(0xFF42A5F5)
+                .setPositiveButtonBackgroundColor(0xFF536DFE)
                 .setNegativeButton("close", Dialog::dismiss) // you can use lambda to call dialog dismiss
                 .setCancelable(true, false)
                 .setAnimation("https://assets10.lottiefiles.com/packages/lf20_uu0x8lqv.json")
                 .setAnimationLoop(true)
+                .setAnimationColorOverlayForAllLayers(0xFF536DFE)
+                // the layerName named according to the animation JSON files
+                .setAnimationColorOverlayForSpecificLayer("Shape Layer 3", 0xFFFFFFFF)
                 .show();
 
     }

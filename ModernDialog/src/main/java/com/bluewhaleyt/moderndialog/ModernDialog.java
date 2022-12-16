@@ -23,11 +23,16 @@ import com.bluewhaleyt.moderndialog.databinding.ModernDialogBinding;
 
 public class ModernDialog {
 
+    // UNAVAILABLE CONSTANTS
     private final static int COLOR_BLACK = 0xFF000000;
     private final static int COLOR_GREY = 0xFF626262;
     private final static int COLOR_WHITE = 0xFFFFFFFF;
     private final static int COLOR_LIGHT_WHITE = 0xFFF5F5F5;
     private final static int COLOR_ACCENT = 0xFF6200EE;
+
+    // AVAILABLE CONSTANTS
+    public final static int CORNER_RADIUS_DIALOG = 60;
+    public final static int CORNER_RADIUS_BUTTON = 80;
 
     public final static int ALIGNMENT_CENTER = Gravity.CENTER;
     public final static int ALIGNMENT_LEFT = Gravity.LEFT;
@@ -135,11 +140,19 @@ public class ModernDialog {
 
     }
 
+    /**
+     * Description:     <b>dismiss()</b> is to dismiss and close the dialog.
+     */
     public void dismiss() {
         if (dialog != null)
             dialog.dismiss();
     }
 
+    /**
+     * Description:     <b>setViewVisible()</b> is a private method which determines whether the view is visible or not.
+     * @param view      (View) The target view to be checked
+     * @param isVisible (boolean) return true if it is visible, false otherwise
+     */
     private void setViewVisible(View view, boolean isVisible) {
         if (isVisible) {
             view.setVisibility(View.VISIBLE);
@@ -148,14 +161,20 @@ public class ModernDialog {
         }
     }
 
-    private void setGravity(TextView view, int gravity) {
-        view.setGravity(gravity);
-    }
-
+    /**
+     * Description:     <b>setBackgroundColor()</b> is a private method which set the background tint color on the view.
+     * @param view      (View) The target's background to be colored
+     * @param color     (int) The color to be used
+     */
     private void setBackgroundColor(View view, int color) {
         view.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
+    /**
+     * Description:     <b>setCornerRadius()</b> is a private method which applies the corner radius to a view that looks like rounded edge.
+     * @param view      (View) The target view to be applied
+     * @param radius    (int) The radius to be set
+     */
     private static void setCornerRadius(View view, int radius) {
         view.setBackground(new GradientDrawable() {
             public GradientDrawable apply(int radius) {
@@ -169,13 +188,13 @@ public class ModernDialog {
 
         private Context context;
 
-        // Basic settings
+        // Basic settings - (DEFAULT)
         private String title;
         private String message;
         private boolean isCancelable = true;
         private boolean isCancelableTouchOutside = false;
 
-        // Advanced settings
+        // Advanced settings - (DEFAULT)
         private int dialogBgColor = COLOR_WHITE;
         private int dialogCornerRadius = 60;
 
@@ -211,43 +230,88 @@ public class ModernDialog {
         private boolean isAnimationLoop = false;
 
         private String btnPositiveText = String.valueOf(android.R.string.ok);
-        private onPositiveListener onPositiveListener = modernDialog -> {};
+        private OnPositiveListener onPositiveListener = modernDialog -> {};
 
         private String btnNegativeText = String.valueOf(android.R.string.cancel);
-        private onNegativeListener onNegativeListener = modernDialog -> {};
+        private OnNegativeListener onNegativeListener = modernDialog -> {};
 
+        /**
+         * Description:     <b>Builder</b> is a constructor that is to call methods to use.
+         * @param context   (Context) The context, this is used for inflating view and initializing dialogs
+         */
         public Builder(Context context) {
             this.context = context;
         }
 
+        /**
+         * Description:     <b>show()</b> is to show the dialog after the configuration is applied.
+         * @return          an instance of {@link ModernDialog}
+         */
         public ModernDialog show() {
             return new ModernDialog(this);
         }
 
         /* ==== BASIC DIALOG CONFIG ==== */
+
+        /**
+         * Description:     <b>setTitle()</b> is to set a title text.
+         * @param text      (String) The text to be displayed <br>
+         *                           Default value: {@link Builder#title}
+         * @return          Builder
+         */
         public Builder setTitle(String text) {
             this.title = text;
             return this;
         }
 
+        /**
+         * Description:     <b>setMessage()</b> is to set the message text.
+         * @param text      (String) The text to be displayed <br>
+         *                           Default value: {@link Builder#message}
+         * @return          Builder
+         */
         public Builder setMessage(String text) {
             this.message = text;
             return this;
         }
 
+        /**
+         * Description:                     <b>setCancelable()</b> is to set whether the dialog is cancelable or not.
+         * @param isCancelable              (boolean) To check whether the dialog can be canceled <br>
+         *                                            Default value: {@link Builder#isCancelable}
+         * @param isCancelableTouchOutside  (boolean) To check whether the dialog can be canceled by touching outside, which is the edge of empty view <br>
+         *                                            Default value: {@link Builder#isCancelableTouchOutside}
+         * @return                          Builder
+         */
         public Builder setCancelable(boolean isCancelable, boolean isCancelableTouchOutside) {
             this.isCancelable = isCancelable;
             this.isCancelableTouchOutside = isCancelableTouchOutside;
             return this;
         }
 
-        public Builder setPositiveButton(String text, onPositiveListener listener) {
+        /**
+         * Description:     <b>setPositiveButton()</b> is to apply a positive button (OK button) to the dialog.
+         * @param text      (String)             The text to be displayed on the button <br>
+         *                                       Default value: {@link Builder#btnPositiveText}
+         * @param listener  (OnPositiveListener) The listener of button's click event to be executed <br>
+         *                                       Default value: {@link Builder#onPositiveListener}
+         * @return          Builder
+         */
+        public Builder setPositiveButton(String text, OnPositiveListener listener) {
             this.btnPositiveText = text;
             this.onPositiveListener = listener;
             return this;
         }
 
-        public Builder setNegativeButton(String text, onNegativeListener listener) {
+        /**
+         * Description:     <b>setNegativeButton()</b> is to apply a negative button (Cancel button) to the dialog.
+         * @param text      (String)             The text to be displayed on the button <br>
+         *                                       Default value: {@link Builder#btnNegativeText}
+         * @param listener  (OnNegativeListener) The listener of button's click event to be executed <br>
+         *                                       Default value: {@link Builder#onNegativeListener}
+         * @return          Builder
+         */
+        public Builder setNegativeButton(String text, OnNegativeListener listener) {
             this.btnNegativeText = text;
             this.onNegativeListener = listener;
             return this;
@@ -255,45 +319,103 @@ public class ModernDialog {
 
         /* ==== ADVANCED DIALOG CONFIG ==== */
         /* ==== [DIALOG] ==== */
+
+        /**
+         * Description:     <b>setDialogBackgroundColor()</b> is to apply a background tint color to the dialog
+         * @param color     (int) The color to be set <br>
+         *                  Default value: {@link Builder#dialogBgColor}
+         * @return          Builder
+         */
         public Builder setDialogBackgroundColor(int color) {
             this.dialogBgColor = color;
             return this;
         }
 
+        /**
+         * Description:     <b>setDialogCornerRadius()</b> is to adjust the corner radius of the dialog.
+         * @param radius    (int) The radius to be set <br>
+         *                  Default value: {@link #dialogCornerRadius}
+         * @return          Builder
+         */
         public Builder setDialogCornerRadius(int radius) {
             this.dialogCornerRadius = radius;
             return this;
         }
 
         /* ==== [TITLE] ==== */
+
+        /**
+         * Description:     <b>setTitleTextColor()</b> is to set the color of title texts.
+         * @param color     (int) The color to be set <br>
+         *                  Default value: {@link Builder#titleTextColor}
+         * @return          Builder
+         */
         public Builder setTitleTextColor(int color) {
             this.titleTextColor = color;
             return this;
         }
 
+        /**
+         * Description:     <b>setTitleAlignment</b> is to set the gravity of title texts.
+         * @param align     (int)             The gravity to be set <br>
+         *                  Default value:    {@link #titleTextAlignment} <br>
+         *                  Available values: {@link #ALIGNMENT_LEFT},
+         *                                    {@link #ALIGNMENT_RIGHT},
+         *                                    {@link #ALIGNMENT_CENTER}
+         * @return          Builder
+         */
         public Builder setTitleTextAlignment(int align) {
             this.titleTextAlignment = align;
             return this;
         }
 
         /* ==== [MESSAGE] ==== */
+
+        /**
+         * Description:     <b>setMessageTextColor()</b> is to set the color of message texts.
+         * @param color     (int) The color to be set <br>
+         *                  Default value: {@link Builder#messageTextColor}
+         * @return          Builder
+         */
         public Builder setMessageTextColor(int color) {
             this.messageTextColor = color;
             return this;
         }
 
+        /**
+         * Description:     <b>setMessageAlignment</b> is to set the gravity of message texts.
+         * @param align     (int)             The gravity to be set <br>
+         *                  Default value:    {@link #messageTextAlignment} <br>
+         *                  Available values: {@link #ALIGNMENT_LEFT},
+         *                                    {@link #ALIGNMENT_RIGHT},
+         *                                    {@link #ALIGNMENT_CENTER}
+         * @return          Builder
+         */
         public Builder setMessageTextAlignment(int align) {
             this.messageTextAlignment = align;
             return this;
         }
 
         /* ==== [ANIMATION] ==== */
+
+        /**
+         * Description:     <b>setAnimation()</b> is a first method which sets the visible of animation view.
+         * @param isVisible (boolean) Returns true if visible, false otherwise <br>
+         *                  Default value: {@link Builder#isAnimationVisible}
+         * @return          Builder
+         */
         public Builder setAnimation(boolean isVisible) {
             this.isImageVisible = false;
             this.isAnimationVisible = isVisible;
             return this;
         }
 
+        /**
+         * Description:     <b>setAnimation()</b> is a second method which sets the animation by applying its JSON URL from Lottie Animations.
+         * @param url       (String) The url of the animation JSON. <br>
+         *                           Default value: {@link Builder#animationJSONUrl}
+         * @return          Builder
+         */
         public Builder setAnimation(String url) {
             this.isImageVisible = false;
             this.isAnimationVisible = true;
@@ -301,6 +423,13 @@ public class ModernDialog {
             return this;
         }
 
+        /**
+         * Description:     <b>setAnimation()</b> is a second method which sets the animation by applying its raw resource from Lottie Animations.
+         * @param rawRes    (int) The raw resource of animation file, you are required to put the raw resource JSON file into <i>res/raw</i>,
+         *                        create this directory if you don't have one <br>
+         *                  Default value: {@link Builder#animationRawRes}
+         * @return          Builder
+         */
         public Builder setAnimation(int rawRes) {
             this.isImageVisible = false;
             this.isAnimationVisible = true;
@@ -308,6 +437,12 @@ public class ModernDialog {
             return this;
         }
 
+        /**
+         * Description:     <b>setAnimationColorOverlayForAllLayers()</b> is to apply the given color to all layers of the animation.
+         * @param color     (int) The color to be set <br>
+         *                  Default value: {@link Builder#animationColorAllLayers}
+         * @return          Builder
+         */
         public Builder setAnimationColorOverlayForAllLayers(int color) {
             this.isImageVisible = false;
             this.isAnimationVisible = true;
@@ -315,6 +450,13 @@ public class ModernDialog {
             return this;
         }
 
+        /**
+         * Description:     <b>setAnimationColorOverlayForSpecificLayer()</b> is to apply the given color to a specific layer of the animation.
+         * @param layerName (String) The name of a part of the layer of the animation to be targeted
+         * @param color     (int) The color to be set <br>
+         *                  Default value: {@link Builder#animationColorSpecificLayer}
+         * @return          Builder
+         */
         public Builder setAnimationColorOverlayForSpecificLayer(String layerName, int color) {
             this.isImageVisible = false;
             this.isAnimationVisible = true;
@@ -323,6 +465,13 @@ public class ModernDialog {
             return this;
         }
 
+        /**
+         * Description:     <b>setAnimationLoop()</b> is a first method which sets the count of the animation to be played repeatedly.
+         * @param count     (int) The count to be played repeatedly <br>
+         *                  Default value: {@link Builder#animationLoop} <br>
+         *                  Available values: {@link #ANIMATION_INFINITE}
+         * @return
+         */
         public Builder setAnimationLoop(int count) {
             this.isImageVisible = false;
             this.isAnimationVisible = true;
@@ -330,6 +479,12 @@ public class ModernDialog {
             return this;
         }
 
+        /**
+         * Description:     <b>setAnimationLoop()</b> is a second method which sets the repeating of animations.
+         * @param isLoop    (boolean) True if loop, false otherwise <br>
+         *                  Default value: {@link Builder#isAnimationLoop}
+         * @return
+         */
         public Builder setAnimationLoop(boolean isLoop) {
             this.isImageVisible = false;
             this.isAnimationVisible = true;
@@ -337,6 +492,14 @@ public class ModernDialog {
             return this;
         }
 
+        /**
+         * Description:     <b>setAnimationMode()</b> is to set the mode of the animation to be played.
+         * @param mode      (int) The mode to be set <br>
+         *                  Default value: {@link #animationMode} <br>
+         *                  Available value: {@link #ANIMATION_RESTART},
+         *                                   {@link #ANIMATION_REVERSE}
+         * @return          Builder
+         */
         public Builder setAnimationMode(int mode) {
             this.isImageVisible = false;
             this.isAnimationVisible = true;
@@ -345,12 +508,25 @@ public class ModernDialog {
         }
 
         /* ==== [IMAGE] ==== */
+
+        /**
+         * Description:     <b>setImage()</b> is a first method which sets the visibility of the image.
+         * @param isVisible (boolean) Returns true if visible, false otherwise <br>
+         *                  Default value: {@link #isImageVisible}
+         * @return          Builder
+         */
         public Builder setImage(boolean isVisible) {
             this.isAnimationVisible = false;
             this.isImageVisible = isVisible;
             return this;
         }
 
+        /**
+         * Description:     <b>setImage()</b> is a second method which sets the image resource.
+         * @param imgRes    (int) The image resource to be set <br>
+         *                  Default value: {@link #imageRes}
+         * @return          Builder
+         */
         public Builder setImage(int imgRes) {
             this.isAnimationVisible = false;
             this.isImageVisible = true;
@@ -358,6 +534,12 @@ public class ModernDialog {
             return this;
         }
 
+        /**
+         * Description:     <b>setImage()</b> is a second method which sets the image uri.
+         * @param imgUri    (String) The image uri to be set <br>
+         *                  Default value: {@link #imageUri}
+         * @return          Builder
+         */
         public Builder setImage(Uri imgUri) {
             this.isAnimationVisible = false;
             this.isImageVisible = true;
@@ -365,6 +547,12 @@ public class ModernDialog {
             return this;
         }
 
+        /**
+         * Description:         <b>setImage()</b> is a second method which sets the image drawable.
+         * @param imageDrawable (Drawable) The image drawable to be set <br>
+         *                      Default value: {@link #imageDrawable}
+         * @return              Builder
+         */
         public Builder setImage(Drawable imageDrawable) {
             this.isAnimationVisible = false;
             this.isImageVisible = true;
@@ -373,32 +561,68 @@ public class ModernDialog {
         }
 
         /* ==== [POSITIVE BUTTON] ==== */
+        /**
+         * Description:     <b>setPositiveButton()</b> is a second method which sets the visibility of the positive button.
+         * @param isVisible (boolean) Returns true if visible, false otherwise <br>
+         *                  Default value: {@link #isPositiveButtonVisible}
+         * @return          Builder
+         */
         public Builder setPositiveButton(boolean isVisible) {
             this.isPositiveButtonVisible = isVisible;
             return this;
         }
 
+        /**
+         * Description:     <b>setPositiveButtonBackgroundColor()</b> is to apply a background tint color to the positive button
+         * @param color     (int) The color to be set <br>
+         *                  Default value: {@link Builder#buttonPositiveBgColor}
+         * @return          Builder
+         */
         public Builder setPositiveButtonBackgroundColor(int color) {
             this.buttonPositiveBgColor = color;
             return this;
         }
 
+        /**
+         * Description:     <b>setPositiveButtonCornerRadius()</b> is to adjust the corner radius of the positive button.
+         * @param radius    (int) The radius to be set <br>
+         *                  Default value: {@link #buttonCornerRadius}
+         * @return          Builder
+         */
         public Builder setPositiveButtonCornerRadius(int radius) {
             this.buttonCornerRadius = radius;
             return this;
         }
 
         /* ==== [NEGATIVE BUTTON] ==== */
+        /**
+         * Description:     <b>setNegativeButton()</b> is a second method which sets the visibility of the negative button.
+         * @param isVisible (boolean) Returns true if visible, false otherwise <br>
+         *                  Default value: {@link #isNegativeButtonVisible}
+         * @return          Builder
+         */
         public Builder setNegativeButton(boolean isVisible) {
             this.isNegativeButtonVisible = isVisible;
             return this;
         }
 
+        /**
+         * Description:     <b>setNegativeButtonBackgroundColor()</b> is to apply a background tint color to the negative button
+         * @param color     (int) The color to be set <br>
+         *                  Default value: {@link Builder#buttonNegativeBgColor}
+         * @return          Builder
+         */
         public Builder setNegativeButtonBackgroundColor(int color) {
             this.buttonNegativeBgColor = color;
             return this;
         }
 
+        /**
+         * Description:     <b>setNegativeButtonCornerRadius()</b> is to adjust the corner radius of the negative button.
+         * @param radius    (int) The radius to be set <br>
+         *                  Default value: {@link #buttonCornerRadius}
+         * @return          Builder
+         */
         public Builder setNegativeButtonCornerRadius(int radius) {
             this.buttonCornerRadius = radius;
             return this;
@@ -406,11 +630,17 @@ public class ModernDialog {
 
     }
 
-    public interface onPositiveListener {
+    /**
+     * Description:     <b>OnPositiveListener</b> is to execute the click event of positive buttons.
+     */
+    public interface OnPositiveListener {
         void onPositive(AlertDialog modernDialog);
     }
 
-    public interface onNegativeListener {
+    /**
+     * Description:     <b>OnNegativeListener</b> is to execute the click event of negative buttons.
+     */
+    public interface OnNegativeListener {
         void onNegative(AlertDialog modernDialog);
     }
 
