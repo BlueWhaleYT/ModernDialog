@@ -2,21 +2,17 @@ package com.bluewhaleyt.moderndialog;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieDrawable;
 import com.airbnb.lottie.LottieProperty;
@@ -34,9 +30,11 @@ public class ModernDialog {
     private final static int COLOR_ACCENT = 0xFF6200EE;
 
     public final static int COLOR_BLACK_DARKMODE = 0xFF161616;
+    public final static int COLOR_GREY_DARKMODE = 0xFF212121;
+    public final static int COLOR_LIGHT_WHITE_DARKMODE = 0xFFBDBDBD;
 
     // AVAILABLE CONSTANTS
-    public final static int CORNER_RADIUS_DIALOG = 60;
+    public final static int CORNER_RADIUS_DIALOG = 80;
     public final static int CORNER_RADIUS_BUTTON = 80;
 
     public final static int ALIGNMENT_CENTER = Gravity.CENTER;
@@ -98,8 +96,16 @@ public class ModernDialog {
         // set text
         binding.tvTitle.setText(builder.title);
         binding.tvMessage.setText(builder.message);
-        binding.btnPositive.setText(builder.btnPositiveText);
-        binding.btnNegative.setText(builder.btnNegativeText);
+        if (TextUtils.isEmpty(builder.btnPositiveText)) {
+            binding.btnPositive.setText(builder.context.getResources().getString(android.R.string.ok));
+        } else {
+            binding.btnPositive.setText(builder.btnPositiveText);
+        }
+        if (TextUtils.isEmpty(builder.btnNegativeText)) {
+            binding.btnNegative.setText(builder.context.getResources().getString(android.R.string.cancel));
+        } else {
+            binding.btnNegative.setText(builder.btnNegativeText);
+        }
 
         // set text color
         binding.tvTitle.setTextColor(builder.titleTextColor);
@@ -117,6 +123,12 @@ public class ModernDialog {
         setViewVisible(binding.imageView, builder.isImageVisible);
         setViewVisible(binding.btnPositive, builder.isPositiveButtonVisible);
         setViewVisible(binding.btnNegative, builder.isNegativeButtonVisible);
+
+        if (builder.isButtonsDisabled) {
+            binding.buttonsSet.setVisibility(View.GONE);
+        } else {
+            binding.buttonsSet.setVisibility(View.VISIBLE);
+        }
 
         // set click event listener
         if (builder.dialogStyle == DIALOG_STYLE_DEFAULT) {
@@ -285,11 +297,12 @@ public class ModernDialog {
         private boolean isPositiveButtonVisible = true;
         private boolean isNegativeButtonVisible = true;
         private boolean isAnimationLoop = false;
+        private boolean isButtonsDisabled = false;
 
-        private String btnPositiveText = String.valueOf(android.R.string.ok);
+        private String btnPositiveText = "";
         private OnPositiveListener onPositiveListener = modernDialog -> {};
 
-        private String btnNegativeText = String.valueOf(android.R.string.cancel);
+        private String btnNegativeText = "";
         private OnNegativeListener onNegativeListener = modernDialog -> {};
 
         /**
@@ -627,6 +640,12 @@ public class ModernDialog {
             return this;
         }
 
+        /* ==== [BUTTON] ==== */
+        public Builder setButtonsDisabled(boolean isDisabled) {
+            this.isButtonsDisabled = isDisabled;
+            return this;
+        }
+
         /* ==== [POSITIVE BUTTON] ==== */
         /**
          * Description:     <b>setPositiveButton()</b> is a second method which sets the visibility of the positive button.
@@ -710,8 +729,8 @@ public class ModernDialog {
             if (isDarkMode) {
                 this.dialogBgColor = COLOR_BLACK_DARKMODE;
                 this.titleTextColor = COLOR_WHITE;
-                this.messageTextColor = 0xFFBDBDBD;
-                this.buttonNegativeBgColor = 0xFF212121;
+                this.messageTextColor = COLOR_LIGHT_WHITE_DARKMODE;
+                this.buttonNegativeBgColor = COLOR_GREY_DARKMODE;
                 this.buttonNegativeTextColor = COLOR_WHITE;
             }
             return this;

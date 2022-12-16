@@ -20,6 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
+                android:gravity="center"
                 android:weightSum="3">
 
                 <TextView
@@ -51,17 +52,31 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn1"
+            android:id="@+id/btnDefaultDialog"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="Default Dialog" />
 
         <Button
-            android:id="@+id/btn2"
+            android:id="@+id/btnBottomSheetDialog"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="Bottom Sheet Dialog" />
+
+        <Button
+            android:id="@+id/btnDefaultDialogWithAnimation"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Default Dialog With Animation" />
+
+        <Button
+            android:id="@+id/btnBottomSheetDialogWithAnimation"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:textSize="12sp"
+            android:text="Bottom Sheet Dialog With Animation" />
 
     </LinearLayout>
 
@@ -74,10 +89,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Created by BlueWhaleYT  -  v1.0.1   - "/>
+            android:text="Created by BlueWhaleYT  -  "/>
+
+        <TextView
+            android:id="@+id/versionName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   - "/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn3"
+            android:id="@+id/btnGithub"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
