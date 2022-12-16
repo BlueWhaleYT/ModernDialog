@@ -188,15 +188,6 @@ public class ModernDialog {
     }
 
     /**
-     * Description:     <b>dismiss()</b> is to dismiss and close the dialog.
-     */
-    public void dismiss() {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-    }
-
-    /**
      * Description:     <b>setViewVisible()</b> is a private method which determines whether the view is visible or not.
      * @param view      (View) The target view to be checked
      * @param isVisible (boolean) return true if it is visible, false otherwise
