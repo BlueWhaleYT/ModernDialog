@@ -80,7 +80,7 @@ ModernDialog dialog = new ModernDialog.Builder(this)
         .setNegativeButton("Close", null)
 
         // show the dialog
-        .show(;)
+        .show();
 
 ```
 
