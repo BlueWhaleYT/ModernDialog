@@ -1,5 +1,6 @@
 package com.bluewhaleyt.moderndialog;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
@@ -14,6 +15,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,6 +25,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bluewhaleyt.moderndialog.databinding.ActivityMainBinding;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setSupportActionBar(binding.toolbar);
+
         binding.versionName.setText(versionName);
         binding.btnDefaultDialog.setOnClickListener(view -> dialogDefault());
         binding.btnDefaultDialogWithCustomView.setOnClickListener(view -> dialogDefaultWithCustomView());
@@ -51,25 +59,6 @@ public class MainActivity extends AppCompatActivity {
         binding.btnBottomSheetDialogWithCustomView.setOnClickListener(view -> dialogBottomSheetWithCustomView());
         binding.btnBottomSheetDialogWithAnimation.setOnClickListener(view -> dialogBottomSheetWithAnimation());
         binding.btnGithub.setOnClickListener(view -> gotoGithub());
-
-        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        switch (nightModeFlags) {
-            case Configuration.UI_MODE_NIGHT_YES:
-                binding.switchTheme.setChecked(true);
-                break;
-
-            case Configuration.UI_MODE_NIGHT_NO:
-                binding.switchTheme.setChecked(false);
-                break;
-        }
-
-        binding.switchTheme.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
-        });
 
     }
 
@@ -182,4 +171,54 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.darkMode:
+                if (item.isChecked()) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    item.setChecked(false);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    item.setChecked(true);
+                }
+                break;
+            case R.id.info:
+                info();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void info(){
+
+        try {
+            InputStream is = getAssets().open("release_notes.txt");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String text = new String(buffer);
+
+            dialog = new ModernDialog.Builder(this)
+                    .setDialogStyle(ModernDialog.DIALOG_STYLE_BOTTOM_SHEET)
+                    .setTitle("Release Notes  -  " + versionName)
+                    .setMessage(text)
+                    .setTitleTextAlignment(ModernDialog.ALIGNMENT_LEFT)
+                    .setMessageTextAlignment(ModernDialog.ALIGNMENT_LEFT)
+                    .setButtonsDisabled(true)
+                    .setCancelable(true, true)
+                    .show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }

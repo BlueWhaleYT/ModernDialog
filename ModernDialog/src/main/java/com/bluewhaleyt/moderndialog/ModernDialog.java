@@ -19,6 +19,7 @@ import com.airbnb.lottie.LottieDrawable;
 import com.airbnb.lottie.LottieProperty;
 import com.airbnb.lottie.model.KeyPath;
 import com.bluewhaleyt.moderndialog.databinding.ModernDialogBinding;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class ModernDialog {
@@ -57,6 +58,8 @@ public class ModernDialog {
     public AlertDialog dialogDef;
     public BottomSheetDialog dialogBS;
 
+    public BottomSheetBehavior<View> bottomSheetBehavior;
+
     public ModernDialog(final Builder builder) {
 
         binding = ModernDialogBinding.inflate(LayoutInflater.from(builder.context));
@@ -84,6 +87,10 @@ public class ModernDialog {
             // set cancelable
             dialogBS.setCancelable(builder.isCancelable);
             dialogBS.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);
+
+            // set bottom sheet behavior
+            bottomSheetBehavior = BottomSheetBehavior.from((View) binding.rootView.getParent());
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
             // set drag handle
             setViewVisible(binding.dragHandleLayout, builder.isDragHandleVisible);
@@ -422,8 +429,8 @@ public class ModernDialog {
             return this;
         }
 
-        public Builder setView(int view) {
-            this.dialogView = view;
+        public Builder setView(int resId) {
+            this.dialogView = resId;
             return this;
         }
 

@@ -1,0 +1,13 @@
+New Features
+Added new method setDragHandle(boolean), the Drag Handle is only available for Bottom Sheet Dialog.
+Added new method setDragHandleColor(int).
+Added new method setView(int).
+Added new method setDarkModeColorByDefault(boolean).
+Added new method setDarkModeButtonsColorByDefault(boolean).
+
+Fixes
+Fixed the accent color of Positive Button tints in light theme's color.
+(API 29+ only) FIxed the navigation bar turns white when the Bottom Sheet Dialog is called.
+
+Changes
+Changed the font of title, message and buttons.
