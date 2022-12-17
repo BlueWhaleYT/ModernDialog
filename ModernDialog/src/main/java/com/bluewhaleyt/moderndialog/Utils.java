@@ -9,17 +9,10 @@ import java.util.concurrent.Callable;
 
 public class Utils {
 
-    // these modules will soon be used ...
-
     /**
      * Description:		<b>waitForTimeThenDo()</b> is to execute programs after the time delay.
      * @param time		The time does program need to wait
      * @param callable 	The program to be executed after the time
-     *
-     * Example:			<pre></pre><code></code>waitForTimeThenDo(time, () -> {
-     *                  	// code here ..
-     *                  	return null;
-     * 					})</code></pre>
      */
     public static void waitForTimeThenDo(int time, Callable<Void> callable) {
         Handler handler = new Handler();

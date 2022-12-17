@@ -75,7 +75,6 @@
             android:id="@+id/btnBottomSheetDialogWithAnimation"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:textSize="12sp"
             android:text="Bottom Sheet Dialog With Animation" />
 
     </LinearLayout>

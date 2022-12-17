@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTitleTextAlignment(ModernDialog.ALIGNMENT_LEFT)
                 .setMessageTextAlignment(ModernDialog.ALIGNMENT_LEFT)
                 .setPositiveButton(false)
+                .setDragHandle(false)
                 .show();
 
     }

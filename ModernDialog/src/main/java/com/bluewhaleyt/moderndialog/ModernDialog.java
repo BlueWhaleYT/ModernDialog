@@ -58,6 +58,13 @@ public class ModernDialog {
 
         binding = ModernDialogBinding.inflate(LayoutInflater.from(builder.context));
 
+        // check if the device is in dark mode
+        if (Utils.isInDarkMode(builder.context)) {
+            builder.setDarkMode(true);
+        } else {
+            builder.setDarkMode(false);
+        }
+
         if (builder.dialogStyle == DIALOG_STYLE_DEFAULT) {
             dialog = new AlertDialog.Builder(builder.context).create();
             dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -73,13 +80,10 @@ public class ModernDialog {
             // set cancelable
             dialogBS.setCancelable(builder.isCancelable);
             dialogBS.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);
-        }
 
-        // check if the device is in dark mode
-        if (Utils.isInDarkMode(builder.context)) {
-            builder.setDarkMode(true);
-        } else {
-            builder.setDarkMode(false);
+            // set drag handle
+            setViewVisible(binding.dragHandleLayout, builder.isDragHandleVisible);
+            setBackgroundColor(binding.dragHandle, builder.dragHandleColor);
         }
 
         // apply configuration
@@ -274,6 +278,8 @@ public class ModernDialog {
         private int buttonPositiveTextColor = COLOR_WHITE;
         private int buttonNegativeTextColor = COLOR_BLACK;
 
+        private int dragHandleColor = COLOR_LIGHT_WHITE;
+
         private String animationJSONUrl = "";
         private String animationLayerName = "";
 
@@ -289,13 +295,15 @@ public class ModernDialog {
 
         private boolean isDarkMode = false;
 
-        private boolean isDialogDismiss = true;
         private boolean isTitleVisible = true;
         private boolean isMessageVisible = true;
         private boolean isAnimationVisible = false;
         private boolean isImageVisible = false;
         private boolean isPositiveButtonVisible = true;
         private boolean isNegativeButtonVisible = true;
+        private boolean isDragHandleVisible = true;
+
+        private boolean isDialogDismiss = true;
         private boolean isAnimationLoop = false;
         private boolean isButtonsDisabled = false;
 
@@ -724,6 +732,12 @@ public class ModernDialog {
             return this;
         }
 
+        /* ==== [DRAG HANDLE] ==== */
+        public Builder setDragHandle(boolean isVisible) {
+            this.isDragHandleVisible = isVisible;
+            return this;
+        }
+
         public Builder setDarkMode(boolean isDarkMode) {
             this.isDarkMode = isDarkMode;
             if (isDarkMode) {
@@ -732,6 +746,7 @@ public class ModernDialog {
                 this.messageTextColor = COLOR_LIGHT_WHITE_DARKMODE;
                 this.buttonNegativeBgColor = COLOR_GREY_DARKMODE;
                 this.buttonNegativeTextColor = COLOR_WHITE;
+                this.dragHandleColor = 0xFF424242;
             }
             return this;
         }
