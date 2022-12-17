@@ -35,8 +35,9 @@ public class ModernDialog {
     private final static int COLOR_ACCENT_DARKMODE = 0xFFBB86FC;
 
     // AVAILABLE CONSTANTS
-    public final static int CORNER_RADIUS_DIALOG = 80;
-    public final static int CORNER_RADIUS_BUTTON = 80;
+    public final static int CORNER_RADIUS_DIALOG = 60;
+    public final static int CORNER_RADIUS_ROUNDED_BUTTON = 20;
+    public final static int CORNER_RADIUS_ROUND_BUTTON = 80;
 
     public final static int ALIGNMENT_CENTER = Gravity.CENTER;
     public final static int ALIGNMENT_LEFT = Gravity.LEFT;
@@ -293,7 +294,7 @@ public class ModernDialog {
         private int titleTextAlignment = ALIGNMENT_CENTER;
         private int messageTextAlignment = ALIGNMENT_CENTER;
 
-        private int buttonCornerRadius = CORNER_RADIUS_BUTTON;
+        private int buttonCornerRadius = CORNER_RADIUS_ROUND_BUTTON;
         private int buttonPositiveBgColor = COLOR_ACCENT;
         private int buttonNegativeBgColor = COLOR_LIGHT_WHITE;
 
