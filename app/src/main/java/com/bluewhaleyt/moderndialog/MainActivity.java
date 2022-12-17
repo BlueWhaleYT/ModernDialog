@@ -4,30 +4,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bluewhaleyt.moderndialog.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    final String versionName = "v1.0.1";
+    final String versionName = "v1.0.2";
     final String str1 = "Dialog";
     final String str2 = "Bottom Sheet Dialog";
     final String str3 = "This is an alert dialog using ModernDialog library. ";
     final String str4 = "This is a bottom sheet dialog using ModernDialog library. ";
 
-    final int color1 = 0xFFFFEE58;
+    final int color1 = 0xFFF57F17;
     final int color2 = 0xFFEC407A;
 
     private ActivityMainBinding binding;
@@ -41,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
         binding.versionName.setText(versionName);
         binding.btnDefaultDialog.setOnClickListener(view -> dialogDefault());
+        binding.btnDefaultDialogWithCustomView.setOnClickListener(view -> dialogDefaultWithCustomView());
         binding.btnDefaultDialogWithAnimation.setOnClickListener(view -> dialogDefaultWithAnimation());
         binding.btnBottomSheetDialog.setOnClickListener(view -> dialogBottomSheet());
+        binding.btnBottomSheetDialogWithCustomView.setOnClickListener(view -> dialogBottomSheetWithCustomView());
         binding.btnBottomSheetDialogWithAnimation.setOnClickListener(view -> dialogBottomSheetWithAnimation());
         binding.btnGithub.setOnClickListener(view -> gotoGithub());
 
@@ -75,7 +81,18 @@ public class MainActivity extends AppCompatActivity {
                 .setTitleTextAlignment(ModernDialog.ALIGNMENT_LEFT)
                 .setMessageTextAlignment(ModernDialog.ALIGNMENT_LEFT)
                 .setPositiveButtonBackgroundColor(color1)
-                .setPositiveButtonTextColor(0xFF000000)
+                .show();
+
+    }
+
+    private void dialogDefaultWithCustomView() {
+
+        dialog = new ModernDialog.Builder(this)
+                .setDarkModeButtonsColorByDefault(true)
+                .setTitle(str1)
+                .setMessage(str3)
+                .setView(R.layout.layout_edittext)
+                .setPositiveButton("Get text", v -> getText())
                 .show();
 
     }
@@ -112,6 +129,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void dialogBottomSheetWithCustomView() {
+
+        dialog = new ModernDialog.Builder(this)
+                .setDialogStyle(ModernDialog.DIALOG_STYLE_BOTTOM_SHEET)
+                .setTitle(str1)
+                .setMessage(str3)
+                .setView(R.layout.layout_edittext)
+                .setPositiveButton("Get text", v -> getText2())
+                .show();
+
+    }
+
     private void dialogBottomSheetWithAnimation() {
 
         // here's the sample of dialog configuration
@@ -133,6 +162,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void gotoGithub() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/BlueWhaleYT/ModernDialog")));
+    }
+
+    private void getText() {
+        // here's a sample of getting edittext value from the inflated view of dialog
+        View v = getLayoutInflater().inflate(R.layout.layout_edittext, null);
+        EditText et = dialog.dialogDef.findViewById(R.id.et);
+        if (!TextUtils.isEmpty(et.getText().toString())) {
+            Toast.makeText(this, et.getText().toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void getText2() {
+        // here's a sample of getting edittext value from the inflated view of dialog
+        View v = getLayoutInflater().inflate(R.layout.layout_edittext, null);
+        EditText et = dialog.dialogBS.findViewById(R.id.et);
+        if (!TextUtils.isEmpty(et.getText().toString())) {
+            Toast.makeText(this, et.getText().toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

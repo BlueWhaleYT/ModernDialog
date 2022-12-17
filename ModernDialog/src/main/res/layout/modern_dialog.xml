@@ -31,101 +31,109 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:visibility="gone"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"/>
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animationView"
-            android:visibility="gone"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            app:lottie_autoPlay="true"/>
-
         <LinearLayout
+            android:id="@+id/contentView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:visibility="gone"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:visibility="gone"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"/>
 
             <LinearLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginBottom="20dp"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvTitle"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Title"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black"
-                        android:fontFamily="@font/indivisible_semi_bold"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center"/>
+                        android:orientation="vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp">
 
-                    <TextView
-                        android:id="@+id/tvMessage"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Message"
-                        android:textStyle="bold"
-                        android:textSize="12sp"
-                        android:lineSpacingExtra="4sp"
-                        android:fontFamily="@font/indivisible_regular"
-                        android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/tvTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Title"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black"
+                            android:fontFamily="@font/indivisible_semi_bold"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/tvMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Message"
+                            android:textSize="12sp"
+                            android:lineSpacingExtra="4sp"
+                            android:fontFamily="@font/indivisible_regular"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/buttonsSet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:gravity="bottom"
-                android:orientation="horizontal">
+        </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnNegative"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    app:backgroundTint="#F5F5F5"
-                    android:stateListAnimator="@null"
-                    android:text="Cancel"
-                    android:textSize="11sp"
-                    android:textColor="@android:color/black"
-                    android:fontFamily="@font/en_medium"
-                    android:layout_marginEnd="10dp"/>
+        <LinearLayout
+            android:id="@+id/buttonsSet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btnPositive"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:stateListAnimator="@null"
-                    android:text="OK"
-                    android:textSize="11sp"
-                    android:fontFamily="@font/en_medium"/>
+            <Button
+                android:id="@+id/btnNegative"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                app:backgroundTint="#F5F5F5"
+                android:stateListAnimator="@null"
+                android:text="Cancel"
+                android:textSize="11sp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/en_medium"
+                android:layout_marginEnd="10dp"/>
 
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnPositive"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:stateListAnimator="@null"
+                android:text="OK"
+                android:textSize="11sp"
+                android:fontFamily="@font/en_medium"/>
 
         </LinearLayout>
 

@@ -59,17 +59,30 @@
             android:text="Default Dialog" />
 
         <Button
+            android:id="@+id/btnDefaultDialogWithCustomView"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Default Dialog With Custom View" />
+
+        <Button
             android:id="@+id/btnDefaultDialogWithAnimation"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="Default Dialog With Animation" />
 
         <Button
             android:id="@+id/btnBottomSheetDialog"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="Bottom Sheet Dialog" />
+
+        <Button
+            android:id="@+id/btnBottomSheetDialogWithCustomView"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Bottom Sheet Dialog With Custom View" />
 
         <Button
             android:id="@+id/btnBottomSheetDialogWithAnimation"

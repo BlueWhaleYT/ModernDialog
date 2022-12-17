@@ -32,6 +32,7 @@ public class ModernDialog {
     public final static int COLOR_BLACK_DARKMODE = 0xFF161616;
     public final static int COLOR_GREY_DARKMODE = 0xFF212121;
     public final static int COLOR_LIGHT_WHITE_DARKMODE = 0xFFBDBDBD;
+    private final static int COLOR_ACCENT_DARKMODE = 0xFFBB86FC;
 
     // AVAILABLE CONSTANTS
     public final static int CORNER_RADIUS_DIALOG = 80;
@@ -51,7 +52,7 @@ public class ModernDialog {
     @SuppressLint("StaticFieldLeak")
     private static ModernDialogBinding binding;
 
-    public AlertDialog dialog;
+    public AlertDialog dialogDef;
     public BottomSheetDialog dialogBS;
 
     public ModernDialog(final Builder builder) {
@@ -66,13 +67,13 @@ public class ModernDialog {
         }
 
         if (builder.dialogStyle == DIALOG_STYLE_DEFAULT) {
-            dialog = new AlertDialog.Builder(builder.context).create();
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialog.setView(binding.getRoot());
-            dialog.show();
+            dialogDef = new AlertDialog.Builder(builder.context).create();
+            dialogDef.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogDef.setView(binding.getRoot());
+            dialogDef.show();
             // set cancelable
-            dialog.setCancelable(builder.isCancelable);
-            dialog.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);
+            dialogDef.setCancelable(builder.isCancelable);
+            dialogDef.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);
         } else if (builder.dialogStyle == DIALOG_STYLE_BOTTOM_SHEET) {
             dialogBS = new BottomSheetDialog(builder.context, R.style.ThemeOverlay_App_BottomSheetDialog);
             dialogBS.setContentView(binding.getRoot());
@@ -138,24 +139,24 @@ public class ModernDialog {
         if (builder.dialogStyle == DIALOG_STYLE_DEFAULT) {
             if (builder.onPositiveListener != null) {
                 binding.btnPositive.setOnClickListener(v -> {
-                    builder.onPositiveListener.onPositive(dialog);
-                    if (builder.isDialogDismiss) dialog.dismiss();
+                    builder.onPositiveListener.onPositive(dialogDef);
+                    if (builder.isDialogDismiss) dialogDef.dismiss();
                 });
             } else {
-                binding.btnPositive.setOnClickListener(v -> dialog.dismiss());
+                binding.btnPositive.setOnClickListener(v -> dialogDef.dismiss());
             }
             if (builder.onNegativeListener != null) {
                 binding.btnNegative.setOnClickListener(v -> {
-                    builder.onNegativeListener.onNegative(dialog);
-                    if (builder.isDialogDismiss) dialog.dismiss();
+                    builder.onNegativeListener.onNegative(dialogDef);
+                    if (builder.isDialogDismiss) dialogDef.dismiss();
                 });
             } else {
-                binding.btnNegative.setOnClickListener(v -> dialog.dismiss());
+                binding.btnNegative.setOnClickListener(v -> dialogDef.dismiss());
             }
         } else if (builder.dialogStyle == DIALOG_STYLE_BOTTOM_SHEET) {
             if (builder.onPositiveListener != null) {
                 binding.btnPositive.setOnClickListener(v -> {
-                    builder.onPositiveListener.onPositive(dialog);
+                    builder.onPositiveListener.onPositive(dialogDef);
                     if (builder.isDialogDismiss) dialogBS.dismiss();
                 });
             } else {
@@ -163,7 +164,7 @@ public class ModernDialog {
             }
             if (builder.onNegativeListener != null) {
                 binding.btnNegative.setOnClickListener(v -> {
-                    builder.onNegativeListener.onNegative(dialog);
+                    builder.onNegativeListener.onNegative(dialogDef);
                     if (builder.isDialogDismiss) dialogBS.dismiss();
                 });
             } else {
@@ -213,6 +214,26 @@ public class ModernDialog {
             }
         }
 
+        // set view
+        if (builder.dialogView != R.layout.modern_dialog) {
+//            setAllViewsVisible(false);
+            binding.contentView.addView(LayoutInflater.from(builder.context).inflate(builder.dialogView, null), 3);
+            if (TextUtils.isEmpty(builder.title) && TextUtils.isEmpty(builder.message)) {
+                setViewVisible(binding.container, false);
+            } else if (TextUtils.isEmpty(builder.title)) {
+                setViewVisible(binding.tvTitle, false);
+            } else if (TextUtils.isEmpty(builder.message)) {
+                setViewVisible(binding.tvMessage, false);
+            }
+        }
+
+    }
+
+    private void setAllViewsVisible(boolean isVisible) {
+        setViewVisible(binding.tvTitle, isVisible);
+        setViewVisible(binding.tvMessage, isVisible);
+        setViewVisible(binding.imageView, isVisible);
+        setViewVisible(binding.animationView, isVisible);
     }
 
     /**
@@ -260,6 +281,7 @@ public class ModernDialog {
         private String message;
         private boolean isCancelable = true;
         private boolean isCancelableTouchOutside = false;
+        private int dialogView = R.layout.modern_dialog;
 
         // Advanced settings - (DEFAULT)
         private int dialogStyle = DIALOG_STYLE_DEFAULT;
@@ -294,6 +316,8 @@ public class ModernDialog {
         private Drawable imageDrawable;
 
         private boolean isDarkMode = false;
+        private boolean isDarkModeColorByDefault = true;
+        private boolean isDarkModeButtonsColorByDefault = false;
 
         private boolean isTitleVisible = true;
         private boolean isMessageVisible = true;
@@ -392,6 +416,11 @@ public class ModernDialog {
         public Builder setNegativeButton(String text, OnNegativeListener listener) {
             this.btnNegativeText = text;
             this.onNegativeListener = listener;
+            return this;
+        }
+
+        public Builder setView(int view) {
+            this.dialogView = view;
             return this;
         }
 
@@ -738,16 +767,36 @@ public class ModernDialog {
             return this;
         }
 
+        public Builder setDragHandleColor(int color) {
+            this.dragHandleColor = color;
+            return this;
+        }
+
         public Builder setDarkMode(boolean isDarkMode) {
             this.isDarkMode = isDarkMode;
             if (isDarkMode) {
-                this.dialogBgColor = COLOR_BLACK_DARKMODE;
-                this.titleTextColor = COLOR_WHITE;
-                this.messageTextColor = COLOR_LIGHT_WHITE_DARKMODE;
-                this.buttonNegativeBgColor = COLOR_GREY_DARKMODE;
-                this.buttonNegativeTextColor = COLOR_WHITE;
-                this.dragHandleColor = 0xFF424242;
+                if (isDarkModeColorByDefault) {
+                    this.dialogBgColor = COLOR_BLACK_DARKMODE;
+                    this.titleTextColor = COLOR_WHITE;
+                    this.messageTextColor = COLOR_LIGHT_WHITE_DARKMODE;
+                    this.dragHandleColor = 0xFF424242;
+                    this.buttonNegativeBgColor = COLOR_GREY_DARKMODE;
+                    this.buttonNegativeTextColor = COLOR_WHITE;
+                }
+                if (isDarkModeButtonsColorByDefault) {
+                    this.buttonPositiveBgColor = COLOR_ACCENT_DARKMODE;
+                }
             }
+            return this;
+        }
+
+        public Builder setDarkModeColorByDefault(boolean isDarkModeColorByDefault) {
+            this.isDarkModeColorByDefault = isDarkModeColorByDefault;
+            return this;
+        }
+
+        public Builder setDarkModeButtonsColorByDefault(boolean isDarkModeButtonsColorByDefault) {
+            this.isDarkModeButtonsColorByDefault = isDarkModeButtonsColorByDefault;
             return this;
         }
 
