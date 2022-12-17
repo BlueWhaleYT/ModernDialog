@@ -3,11 +3,6 @@
     <style name="ThemeOverlay.App.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetDialog</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-    </style>
-
-    <style name="BottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
-        <item name="backgroundTint">@android:color/transparent</item>
-        <item name="android:elevation">0dp</item>
-        <item name="elevation">0dp</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
     </style>
 </resources>

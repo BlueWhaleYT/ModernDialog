@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.airbnb.lottie.LottieDrawable;
 import com.airbnb.lottie.LottieProperty;
@@ -72,6 +73,7 @@ public class ModernDialog {
             dialogDef.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogDef.setView(binding.getRoot());
             dialogDef.show();
+            dialogDef.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             // set cancelable
             dialogDef.setCancelable(builder.isCancelable);
             dialogDef.setCanceledOnTouchOutside(builder.isCancelableTouchOutside);

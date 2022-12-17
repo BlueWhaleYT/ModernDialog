@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     final String str3 = "This is an alert dialog using ModernDialog library. ";
     final String str4 = "This is a bottom sheet dialog using ModernDialog library. ";
 
-    final int color1 = 0xFFF57F17;
+    final int color1 = 0xFFFFB74D;
     final int color2 = 0xFFEC407A;
 
     private ActivityMainBinding binding;
@@ -124,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
                 .setTitleTextAlignment(ModernDialog.ALIGNMENT_LEFT)
                 .setMessageTextAlignment(ModernDialog.ALIGNMENT_LEFT)
                 .setPositiveButton(false)
-                .setDragHandle(false)
                 .show();
 
     }
