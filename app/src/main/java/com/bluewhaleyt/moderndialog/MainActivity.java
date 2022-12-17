@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         dialog = new ModernDialog.Builder(this)
                 .setDialogStyle(ModernDialog.DIALOG_STYLE_BOTTOM_SHEET)
+                .setDarkModeButtonsColorByDefault(true)
                 .setTitle(str1)
                 .setMessage(str3)
                 .setView(R.layout.layout_edittext)

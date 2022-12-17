@@ -122,7 +122,7 @@
                 android:text="Cancel"
                 android:textSize="11sp"
                 android:textColor="@android:color/black"
-                android:fontFamily="@font/en_medium"
+                android:fontFamily="@font/indivisible_semi_bold"
                 android:layout_marginEnd="10dp"/>
 
             <Button
@@ -133,7 +133,7 @@
                 android:stateListAnimator="@null"
                 android:text="OK"
                 android:textSize="11sp"
-                android:fontFamily="@font/en_medium"/>
+                android:fontFamily="@font/indivisible_semi_bold"/>
 
         </LinearLayout>
 
