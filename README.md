@@ -7,8 +7,8 @@ Do you feel frustrated about using `AlertDialog` and `MaterialAlertDialog` with 
 ## Showcase
 
 <div style="overflow: hidden;">
-    <img src="/screenshots/showcase_light_mode.gif" alt="Light Mode Showcase" style="border-radius: 8px;" width="40%" align="bottom" />
-    <img src="/screenshots/showcase_dark_mode.gif" alt="Dark Mode Showcase" style="border-radius: 8px;" width="40%" align="bottom" />
+    <img src="/screenshots/showcase_light.gif" alt="Light Mode Showcase" style="border-radius: 8px;" width="40%" align="bottom" />
+    <img src="/screenshots/showcase_dark.gif" alt="Dark Mode Showcase" style="border-radius: 8px;" width="40%" align="bottom" />
 </div>
 
 ## Features
