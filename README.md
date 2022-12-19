@@ -4,14 +4,23 @@
 
 Do you feel frustrated about using `AlertDialog` and `MaterialAlertDialog` with their normal designs? If so, ModernDialog is your new choice. It is a powerful library for Android Development written in Java.
 
+## Showcase
+
+<div style="overflow: hidden;">
+    <img src="/screenshots/showcase_light_mode.gif" alt="Light Mode Showcase" style="border-radius: 8px;" width="40%" align="bottom" />
+    <img src="/screenshots/showcase_dark_mode.gif" alt="Dark Mode Showcase" style="border-radius: 8px;" width="40%" align="bottom" />
+</div>
+
 ## Features
 
 Modern Dialog supports [Lottie Animations](https://lottiefiles.com/) by default, **you are not required to add this library on your own.** However, if you're interested about the development of Lottie Animation, you can go to this [documentation](https://github.com/airbnb/lottie-android) for more details.
 
 ## Get Started
+
 You are required to follow the instruction if you want to use this library in your project.
 
 ### Step 1 - Add JitPack Repository
+
 Add the JitPack repository to your root `build.gradle` or `build.gradle (Project: xxx)` inside `Gradle Scripts`.
 
 ```kt
