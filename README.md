@@ -6,6 +6,8 @@ Do you feel frustrated about using `AlertDialog` and `MaterialAlertDialog` with 
 
 ## Showcase
 
+Here are some sample showcase you can take a look at them before attempting to use this library. Sorry it is hard to make them synchronize.
+
 <div style="overflow: hidden;">
     <img src="/screenshots/showcase_light.gif" alt="Light Mode Showcase" style="border-radius: 8px;" width="40%" align="bottom" />
     <img src="/screenshots/showcase_dark.gif" alt="Dark Mode Showcase" style="border-radius: 8px;" width="40%" align="bottom" />
